@@ -119,15 +119,29 @@ final class AppModel {
     if #available(iOS 26.0, *), let bg = continued as? BGContinuedProcessingTask {
       bg.expirationHandler = { [weak self] in
         Task { @MainActor in
+          SyncLog.write("EXPIRED by iOS · \(SyncLog.conditions()) · \(self?.progressLine ?? "")")
           self?.append("iOS stopped the background sync — it resumes on the next run")
           if self?.backgroundSyncEnabled == true { BackgroundSync.schedule() }
-          self?.cancel()
+          self?.cancel(reason: "expired by iOS")
         }
       }
     }
     // Foreground only: iOS suspends uploads when the screen locks.
     UIApplication.shared.isIdleTimerDisabled = continued == nil
     let settings = self.settings
+    cancelReason = nil
+    let started = Date()
+    SyncLog.write(
+      "START \(settings.dryRun ? "dry run" : "sync") · \(continued != nil ? "background task" : "foreground") · \(SyncLog.conditions())"
+    )
+    heartbeat?.cancel()
+    heartbeat = Task { [weak self] in
+      while !Task.isCancelled {
+        try? await Task.sleep(nanoseconds: 60_000_000_000)
+        guard let self, self.isRunning else { return }
+        SyncLog.write("… \(self.progressLine) · \(SyncLog.conditions())")
+      }
+    }
     task = Task {
       var success = false
       defer {
@@ -137,6 +151,7 @@ final class AppModel {
             bg.setTaskCompleted(success: success)
           }
           self.continuedTask = nil
+          self.heartbeat?.cancel()
           self.isRunning = false
           self.progress = nil
           self.refreshCounts()
@@ -151,11 +166,17 @@ final class AppModel {
         let report = try await engine.run(confirmMassDeletion: confirmMassDeletion)
         self.lastReport = report
         success = !report.cancelled
+        let minutes = Int(Date().timeIntervalSince(started) / 60)
+        SyncLog.write(
+          "END \(report.cancelled ? "cancelled (\(self.cancelReason ?? "unknown"))" : "finished") after \(minutes) min · uploaded \(report.uploaded) adopted \(report.adopted) trashed \(report.trashed) failures \(report.failures.count) · \(SyncLog.conditions())"
+        )
+        for f in report.failures.prefix(50) { SyncLog.write("  failure: \(f)") }
         if UIApplication.shared.applicationState != .active { SyncNotifier.notify(report) }
         if !report.failures.isEmpty {
           self.append("\(report.failures.count) items failed — see report")
         }
       } catch ImmichError.unauthorized {
+        SyncLog.write("END error: session expired (401) · \(SyncLog.conditions())")
         self.lastError = ImmichError.unauthorized.localizedDescription
         if UIApplication.shared.applicationState != .active {
           SyncNotifier.notify(error: ImmichError.unauthorized)
@@ -165,12 +186,27 @@ final class AppModel {
       } catch {
         self.lastError = error.localizedDescription
         self.append("Error: \(error.localizedDescription)")
+        SyncLog.write(
+          "END error after \(Int(Date().timeIntervalSince(started) / 60)) min: \(error) · \(SyncLog.conditions())"
+        )
         if UIApplication.shared.applicationState != .active { SyncNotifier.notify(error: error) }
       }
     }
   }
 
-  func cancel() { task?.cancel() }
+  var progressLine: String {
+    guard let p = progress else { return "no progress" }
+    return "\(p.phase) \(p.done)/\(p.total)\(p.detail.map { " [\($0)]" } ?? "")"
+  }
+
+  /// Why the current run is being cancelled (for the persistent log).
+  private var cancelReason: String?
+  private var heartbeat: Task<Void, Never>?
+
+  func cancel(reason: String = "stopped by user") {
+    cancelReason = reason
+    task?.cancel()
+  }
 
   /// Progress events arrive out of order from parallel downloads — never move the bar backwards within a phase.
   private func apply(_ p: SyncProgress) {
@@ -197,6 +233,7 @@ final class AppModel {
   }
 
   func append(_ s: String) {
+    SyncLog.write(s)
     log.insert(LogLine(text: s), at: 0)
     if log.count > 300 { log.removeLast(log.count - 300) }
   }
