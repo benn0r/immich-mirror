@@ -53,6 +53,7 @@ struct UploadResponse: Decodable {
 }  // "created" | "duplicate"
 
 /// Value stored under metadata key `immich-mirror` on every asset this app manages.
+/// (Key kept from the app's earlier name so existing server data stays linked.)
 struct MirrorMetadata: Codable, Equatable {
   var localId: String
   var cloudId: String?

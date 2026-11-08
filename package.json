@@ -1,5 +1,5 @@
 {
-  "name": "immich-mirror",
+  "name": "photo-mirror-sync",
   "private": true,
   "description": "iOS app that mirrors the iCloud Photos library to an Immich server: new photos, edits, favorites, deletions and albums.",
   "scripts": {
@@ -11,7 +11,7 @@
     "ios:release": "npm run project:generate && xcodebuild -project ImmichMirror.xcodeproj -scheme ImmichMirror -configuration Release -destination 'generic/platform=iOS' -derivedDataPath .build/DerivedData -allowProvisioningUpdates build",
     "deploy": "bash scripts/deploy-ios.sh",
     "package": "bash scripts/package-ipa.sh",
-    "icon": "swift Docs/icon/glass_layers.swift Docs/icon/immich-logo.png ImmichMirror/AppIcon.icon",
+    "icon": "swift Docs/icon/glass_icon.swift ImmichMirror/AppIcon.icon",
     "lint": "find ImmichMirror ImmichMirrorTests -name '*.swift' -print0 | xargs -0 swiftc -parse",
     "format:check": "xcrun swift-format lint --recursive --strict ImmichMirror ImmichMirrorTests",
     "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests"

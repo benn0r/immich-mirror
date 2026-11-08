@@ -1,37 +1,35 @@
 {
   "fill" : {
-    "automatic-gradient" : "extended-srgb:0.80000,0.85000,0.94000,1.00000"
+    "automatic-gradient" : "extended-srgb:0.86000,0.90000,0.97000,1.00000"
   },
   "groups" : [
     {
-      "name" : "Logo",
+      "name" : "Scene",
       "layers" : [
-        { "name" : "red",    "image-name" : "petal-red.png",    "glass" : true },
-        { "name" : "yellow", "image-name" : "petal-yellow.png", "glass" : true },
-        { "name" : "green",  "image-name" : "petal-green.png",  "glass" : true },
-        { "name" : "blue",   "image-name" : "petal-blue.png",   "glass" : true },
-        { "name" : "pink",   "image-name" : "petal-pink.png",   "glass" : true }
+        { "name" : "front peak", "image-name" : "peak-front.png", "glass" : false },
+        { "name" : "back peak",  "image-name" : "peak-back.png",  "glass" : false },
+        { "name" : "sun",        "image-name" : "sun.png",        "glass" : false }
       ],
-      "shadow" : { "kind" : "layer-color", "opacity" : 0.5 },
-      "translucency" : { "enabled" : true, "value" : 0.3 },
+      "shadow" : { "kind" : "neutral", "opacity" : 0.25 },
+      "translucency" : { "enabled" : false, "value" : 0 },
       "specular" : true,
       "lighting" : "individual"
     },
     {
       "name" : "Sync",
       "layers" : [
-        { "name" : "top",    "image-name" : "arrow-top.png",    "glass" : true },
-        { "name" : "bottom", "image-name" : "arrow-bottom.png", "glass" : true }
+        { "name" : "top",    "image-name" : "arrow-top.png",    "glass" : false },
+        { "name" : "bottom", "image-name" : "arrow-bottom.png", "glass" : false }
       ],
-      "shadow" : { "kind" : "neutral", "opacity" : 0.4 },
-      "translucency" : { "enabled" : true, "value" : 0.4 },
+      "shadow" : { "kind" : "neutral", "opacity" : 0.25 },
+      "translucency" : { "enabled" : false, "value" : 0 },
       "specular" : true,
       "lighting" : "individual"
     },
     {
       "name" : "Reflection",
       "layers" : [
-        { "name" : "reflection", "image-name" : "reflection.png", "glass" : false, "opacity" : 0.35 }
+        { "name" : "reflection", "image-name" : "reflection.png", "glass" : false, "opacity" : 0.4 }
       ],
       "shadow" : { "kind" : "none", "opacity" : 0 },
       "specular" : false

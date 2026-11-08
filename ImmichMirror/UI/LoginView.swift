@@ -15,7 +15,7 @@ struct LoginView: View {
           VStack(alignment: .leading, spacing: 6) {
             Image(systemName: "arrow.triangle.2.circlepath.icloud")
               .font(.system(size: 44)).foregroundStyle(.tint)
-            Text("Immich Mirror").font(.largeTitle.bold())
+            Text("Photo Mirror Sync").font(.largeTitle.bold())
             Text(
               "Keeps your Immich library identical to your iCloud Photos — new photos, edits, deletions and albums."
             )

@@ -25,13 +25,13 @@ targets:
     info:
       path: ImmichMirror/Support/Info.plist
       properties:
-        CFBundleDisplayName: Immich Mirror
+        CFBundleDisplayName: Photo Mirror
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
-        NSPhotoLibraryUsageDescription: Immich Mirror reads your photo library to mirror it — including deletions and albums — to your Immich server.
+        NSPhotoLibraryUsageDescription: Photo Mirror reads your photo library to mirror it — including deletions and albums — to your Immich server.
         UIBackgroundModes: [processing, fetch]
         BGTaskSchedulerPermittedIdentifiers: [ch.benn0r.immichmirror.sync, ch.benn0r.immichmirror.continued]
     settings:

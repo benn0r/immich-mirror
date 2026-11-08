@@ -10,7 +10,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Immich Mirror</string>
+	<string>Photo Mirror</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -28,7 +28,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Immich Mirror reads your photo library to mirror it — including deletions and albums — to your Immich server.</string>
+	<string>Photo Mirror reads your photo library to mirror it — including deletions and albums — to your Immich server.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>processing</string>

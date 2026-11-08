@@ -16,7 +16,7 @@ enum ImmichError: LocalizedError {
   }
 }
 
-/// Thin client for the Immich endpoints Immich Mirror needs. Auth via session bearer token.
+/// Thin client for the Immich endpoints Photo Mirror Sync needs. Auth via session bearer token.
 final class ImmichClient: @unchecked Sendable {
   let baseURL: URL  // e.g. https://immich.example.com  (without /api)
   private let token: String?

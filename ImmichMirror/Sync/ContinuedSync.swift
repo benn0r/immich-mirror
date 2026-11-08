@@ -25,7 +25,7 @@ enum ContinuedSync {
   /// in which case the caller runs the sync in the foreground as before.
   static func submit() -> Bool {
     let request = BGContinuedProcessingTaskRequest(
-      identifier: identifier, title: "Immich Mirror", subtitle: "Starting sync…")
+      identifier: identifier, title: "Photo Mirror", subtitle: "Starting sync…")
     request.strategy = .fail
     do {
       try BGTaskScheduler.shared.submit(request)
@@ -39,9 +39,9 @@ enum ContinuedSync {
     if p.total > 0 {
       task.progress.totalUnitCount = Int64(p.total)
       task.progress.completedUnitCount = Int64(min(p.done, p.total))
-      task.updateTitle("Immich Mirror", subtitle: "\(p.phase) · \(p.done) / \(p.total)")
+      task.updateTitle("Photo Mirror", subtitle: "\(p.phase) · \(p.done) / \(p.total)")
     } else {
-      task.updateTitle("Immich Mirror", subtitle: p.phase)
+      task.updateTitle("Photo Mirror", subtitle: p.phase)
     }
   }
 }

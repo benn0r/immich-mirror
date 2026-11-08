@@ -16,7 +16,7 @@ struct HomeView: View {
         }
         logSection
       }
-      .navigationTitle("Immich Mirror")
+      .navigationTitle("Photo Mirror")
       .toolbar {
         NavigationLink {
           SettingsView()
@@ -56,7 +56,7 @@ struct HomeView: View {
           systemImage: "photo.badge.exclamationmark"
         ).font(.headline)
         Text(
-          "Immich Mirror needs full access. With limited access, unselected photos would look deleted."
+          "Photo Mirror needs full access. With limited access, unselected photos would look deleted."
         )
         .font(.subheadline).foregroundStyle(.secondary)
         if model.photoStatus == .notDetermined {
