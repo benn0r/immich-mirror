@@ -527,6 +527,8 @@ def submit() -> None:
                 }
             },
         )["data"]["id"]
+    # A submission left empty by an earlier failed attempt gets the version added now.
+    if not call("GET", f"/reviewSubmissions/{submission}/items?limit=1")["data"]:
         call(
             "POST",
             "/reviewSubmissionItems",
