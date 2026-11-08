@@ -5,8 +5,9 @@ name: Release
 # the run number the build number. Runs on the self-hosted macOS runner, which needs Xcode,
 # XcodeGen and the team's Apple Development certificate in its keychain.
 #
-# Repository secrets: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the .p8 key, used by Xcode
-# to create the provisioning profile) and IOS_DEVELOPMENT_TEAM.
+# Signing secrets come from a 1Password Environment (IOS_DEVELOPMENT_TEAM, ASC_KEY_ID, ASC_ISSUER_ID,
+# ASC_KEY_P8), read with a service account that only has access to that Environment.
+# Gitea: secret OP_SERVICE_ACCOUNT_TOKEN, variable OP_ENVIRONMENT_ID.
 on:
   push:
     tags: ["v*"]
@@ -23,15 +24,13 @@ concurrency:
 jobs:
   release:
     runs-on: macos
-    env:
-      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-      IOS_DEVELOPMENT_TEAM: ${{ secrets.IOS_DEVELOPMENT_TEAM }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - run: command -v xcodegen || brew install xcodegen
+      - name: Install 1Password CLI
+        run: command -v op || brew install 1password-cli
       - name: Work out version and tag
         run: |
           if [ "${{ gitea.event_name }}" = "workflow_dispatch" ]; then
@@ -45,14 +44,10 @@ jobs:
           echo "MARKETING_VERSION=${version%%-*}" >> "$GITHUB_ENV"
           echo "BUILD_NUMBER=${{ gitea.run_number }}" >> "$GITHUB_ENV"
       - run: npm run test:unit
-      - name: Write the App Store Connect key
-        env:
-          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
-        run: |
-          umask 077
-          printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
-          echo "ASC_KEY_PATH=$RUNNER_TEMP/AuthKey.p8" >> "$GITHUB_ENV"
       - name: Archive and export ${{ env.TAG }} (build ${{ env.BUILD_NUMBER }})
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          OP_ENVIRONMENT_ID: ${{ vars.OP_ENVIRONMENT_ID }}
         run: npm run package
       - name: Rename and checksum
         run: |
@@ -80,6 +75,3 @@ jobs:
               -F "attachment=@.build/export/$f" "$api/releases/$id/assets?name=$f" > /dev/null
           done
           echo "Published $TAG: ${{ gitea.server_url }}/${{ gitea.repository }}/releases/tag/$TAG"
-      - name: Remove the key
-        if: always()
-        run: rm -f "$RUNNER_TEMP/AuthKey.p8"

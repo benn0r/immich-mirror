@@ -62,7 +62,9 @@ One sync pass:
 ## Development
 
 Copy `.env.example` to the ignored `.env` and set `IOS_DEVELOPMENT_TEAM` (and `IOS_DEVICE_ID` for
-`npm run deploy`, the App Store Connect key IDs for `npm run package`). Project generation applies the team
+`npm run deploy`). Signing secrets for `npm run package` live in a 1Password Environment (see
+[CI and releases](#ci-and-releases)); set its ID as `OP_ENVIRONMENT_ID` and the script loads them through the
+1Password app with `op run --environment`. Project generation applies the team
 every time, so regenerating `ImmichMirror.xcodeproj` does not lose it.
 
 ```sh
@@ -94,8 +96,13 @@ lint, unsigned Release build, unit tests; on `main` the build is kept as an arti
 
 `.gitea/workflows/release.yml` runs on tags `v*` (or by hand with a version): unit tests, archive, export of a
 development-signed IPA and a Gitea release with the IPA and its SHA-256. The tag sets the version, the run
-number the build number. It needs the repository secrets `IOS_DEVELOPMENT_TEAM`, `ASC_KEY_ID`, `ASC_ISSUER_ID`
-and `ASC_KEY_P8`, and the team's Apple Development certificate in the runner's keychain.
+number the build number. It needs the team's Apple Development certificate in the runner's keychain.
+
+Signing secrets are kept in a **1Password Environment** with the variables `IOS_DEVELOPMENT_TEAM`,
+`ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_P8` (contents of the App Store Connect `.p8` key). A 1Password
+service account with read access to only that Environment provides them in CI; Gitea holds just the
+secret `OP_SERVICE_ACCOUNT_TOKEN` and the variable `OP_ENVIRONMENT_ID`. Locally, the same Environment is read
+through the 1Password app.
 
 ```sh
 git tag v0.2.0 && git push origin v0.2.0
