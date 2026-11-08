@@ -1,0 +1,48 @@
+name: Native iOS CI
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ gitea.workflow }}-${{ gitea.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: command -v xcodegen || brew install xcodegen
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-build
+          path: .build/DerivedData/Build/Products/Release-iphoneos/ImmichMirror.app
+          if-no-files-found: error
+
+  test:
+    needs: build
+    runs-on: macos
+    steps:
+      - uses: actions/checkout@v4
+      - run: command -v xcodegen || brew install xcodegen
+      - run: npm run test:unit
+
+  publish:
+    needs: test
+    if: ${{ gitea.event_name == 'push' && gitea.ref == 'refs/heads/main' }}
+    runs-on: macos
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ios-release-build
+          path: ImmichMirror.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: immich-mirror-ios-${{ gitea.sha }}
+          path: ImmichMirror.app
+          if-no-files-found: error
+          retention-days: 30

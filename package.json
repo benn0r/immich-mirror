@@ -1,0 +1,19 @@
+{
+  "name": "immich-mirror",
+  "private": true,
+  "description": "iOS app that mirrors the iCloud Photos library to an Immich server: new photos, edits, favorites, deletions and albums.",
+  "scripts": {
+    "project:generate": "bash scripts/generate-project.sh",
+    "ios": "npm run project:generate && open ImmichMirror.xcodeproj",
+    "test": "npm run project:generate && xcodebuild test -project ImmichMirror.xcodeproj -scheme ImmichMirror -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath .build/DerivedData -enableCodeCoverage YES",
+    "test:unit": "npm run project:generate && xcodebuild test -project ImmichMirror.xcodeproj -scheme ImmichMirror -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath .build/DerivedData -only-testing:ImmichMirrorTests",
+    "build": "npm run project:generate && xcodebuild -project ImmichMirror.xcodeproj -scheme ImmichMirror -configuration Release -destination 'generic/platform=iOS' -derivedDataPath .build/DerivedData CODE_SIGNING_ALLOWED=NO build",
+    "ios:release": "npm run project:generate && xcodebuild -project ImmichMirror.xcodeproj -scheme ImmichMirror -configuration Release -destination 'generic/platform=iOS' -derivedDataPath .build/DerivedData -allowProvisioningUpdates build",
+    "deploy": "bash scripts/deploy-ios.sh",
+    "package": "bash scripts/package-ipa.sh",
+    "icon": "swift Docs/icon/glass_layers.swift Docs/icon/immich-logo.png ImmichMirror/AppIcon.icon",
+    "lint": "find ImmichMirror ImmichMirrorTests -name '*.swift' -print0 | xargs -0 swiftc -parse",
+    "format:check": "xcrun swift-format lint --recursive --strict ImmichMirror ImmichMirrorTests",
+    "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests"
+  }
+}

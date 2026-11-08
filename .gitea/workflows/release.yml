@@ -1,0 +1,85 @@
+name: Release
+# Pushing a tag like v0.2.0 (or running this workflow by hand with a version) runs the unit tests,
+# archives a Release build, exports a development-signed IPA (installs on the team's registered
+# devices) and publishes it as a Gitea release with a SHA-256 checksum. The tag sets the version,
+# the run number the build number. Runs on the self-hosted macOS runner, which needs Xcode,
+# XcodeGen and the team's Apple Development certificate in its keychain.
+#
+# Repository secrets: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the .p8 key, used by Xcode
+# to create the provisioning profile) and IOS_DEVELOPMENT_TEAM.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to release, e.g. 0.2.0 (creates the tag v<version>)
+        required: true
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: macos
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      IOS_DEVELOPMENT_TEAM: ${{ secrets.IOS_DEVELOPMENT_TEAM }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: command -v xcodegen || brew install xcodegen
+      - name: Work out version and tag
+        run: |
+          if [ "${{ gitea.event_name }}" = "workflow_dispatch" ]; then
+            version="${{ inputs.version }}"
+            tag="v$version"
+          else
+            tag="${GITHUB_REF_NAME}"
+            version="${tag#v}"
+          fi
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+          echo "MARKETING_VERSION=${version%%-*}" >> "$GITHUB_ENV"
+          echo "BUILD_NUMBER=${{ gitea.run_number }}" >> "$GITHUB_ENV"
+      - run: npm run test:unit
+      - name: Write the App Store Connect key
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          umask 077
+          printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
+          echo "ASC_KEY_PATH=$RUNNER_TEMP/AuthKey.p8" >> "$GITHUB_ENV"
+      - name: Archive and export ${{ env.TAG }} (build ${{ env.BUILD_NUMBER }})
+        run: npm run package
+      - name: Rename and checksum
+        run: |
+          ipa="ImmichMirror-${TAG}.ipa"
+          mv .build/export/ImmichMirror.ipa ".build/export/$ipa"
+          (cd .build/export && shasum -a 256 "$ipa" > "$ipa.sha256")
+          echo "IPA=$ipa" >> "$GITHUB_ENV"
+      - name: Publish Gitea release
+        env:
+          TOKEN: ${{ secrets.GITEA_TOKEN }}
+        run: |
+          api="${{ gitea.server_url }}/api/v1/repos/${{ gitea.repository }}"
+          prev=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)
+          range=${prev:+$prev..}HEAD
+          [ "${{ gitea.event_name }}" = "workflow_dispatch" ] || range=${prev:+$prev..}$TAG
+          notes=$(git log --pretty='- %s' "$range" | head -50)
+          body=$(printf 'Immich Mirror %s (build %s)\n\n%s\n\nInstall the IPA on a registered device, e.g. with `xcrun devicectl device install app --device <id> %s`.\n' \
+            "$MARKETING_VERSION" "$BUILD_NUMBER" "$notes" "$IPA")
+          payload=$(jq -n --arg tag "$TAG" --arg sha "${{ gitea.sha }}" --arg body "$body" \
+            '{tag_name: $tag, target_commitish: $sha, name: $tag, body: $body, draft: false, prerelease: false}')
+          id=$(curl -fsS -X POST -H "Authorization: token $TOKEN" -H "Content-Type: application/json" \
+            -d "$payload" "$api/releases" | jq -r .id)
+          for f in "$IPA" "$IPA.sha256"; do
+            curl -fsS -X POST -H "Authorization: token $TOKEN" \
+              -F "attachment=@.build/export/$f" "$api/releases/$id/assets?name=$f" > /dev/null
+          done
+          echo "Published $TAG: ${{ gitea.server_url }}/${{ gitea.repository }}/releases/tag/$TAG"
+      - name: Remove the key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/AuthKey.p8"
