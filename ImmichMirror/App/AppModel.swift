@@ -115,10 +115,12 @@ final class AppModel {
       return
     }
     continuedTask = continued
+    if #available(iOS 26.0, *) { ContinuedSync.resetProgress() }
     if #available(iOS 26.0, *), let bg = continued as? BGContinuedProcessingTask {
       bg.expirationHandler = { [weak self] in
         Task { @MainActor in
           self?.append("iOS stopped the background sync — it resumes on the next run")
+          if self?.backgroundSyncEnabled == true { BackgroundSync.schedule() }
           self?.cancel()
         }
       }
@@ -173,7 +175,13 @@ final class AppModel {
   /// Progress events arrive out of order from parallel downloads — never move the bar backwards within a phase.
   private func apply(_ p: SyncProgress) {
     guard isRunning else { return }
-    if var cur = progress, cur.phase == p.phase {
+    if p.phase.isEmpty {
+      // Detail-only event (upload percentage) for whatever phase is running.
+      if var cur = progress {
+        cur.detail = p.detail
+        progress = cur
+      }
+    } else if var cur = progress, cur.phase == p.phase {
       cur.done = max(cur.done, p.done)
       cur.total = p.total
       if p.detail != nil || p.done > (progress?.done ?? 0) { cur.detail = p.detail }
@@ -184,7 +192,7 @@ final class AppModel {
     if #available(iOS 26.0, *), let bg = continuedTask as? BGContinuedProcessingTask,
       let cur = progress
     {
-      ContinuedSync.report(bg, cur)
+      ContinuedSync.report(bg, cur, tick: p.tick)
     }
   }
 

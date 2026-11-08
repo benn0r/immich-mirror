@@ -37,6 +37,8 @@ struct SyncProgress: Equatable {
   var done: Int = 0
   var total: Int = 0
   var detail: String? = nil  // e.g. "IMG_1234.HEIC · downloading 42%"
+  /// Download/upload activity within the current item: counts as forward progress for iOS.
+  var tick = false
 }
 
 struct SyncReport: Equatable {
@@ -272,7 +274,7 @@ actor SyncEngine {
           progress(
             .init(
               phase: "Checking edited photos", done: i, total: n,
-              detail: "\(name) · downloading from iCloud \(Int(f * 100))%"))
+              detail: "\(name) · downloading from iCloud \(Int(f * 100))%", tick: true))
         }
         defer { exp.cleanup() }
         if exp.primary.sha1Base64 == rec.checksum {
@@ -464,7 +466,7 @@ actor SyncEngine {
               progress(
                 .init(
                   phase: phase, done: doneBefore, total: total,
-                  detail: "\(name) · downloading from iCloud \(Int(fraction * 100))%"))
+                  detail: "\(name) · downloading from iCloud \(Int(fraction * 100))%", tick: true))
             }
             return (id, .success(e))
           } catch { return (id, .failure(error)) }
@@ -494,13 +496,19 @@ actor SyncEngine {
     id: String, videoId: String?, created: Bool
   ) {
     let meta = MirrorMetadata(localId: e.localId, cloudId: cloudId)
+    let progress = onProgress
+    func uploading(_ name: String) -> @Sendable (Double) -> Void {
+      { f in progress(.init(phase: "", detail: "\(name) · uploading \(Int(f * 100))%", tick: true))
+      }
+    }
     var videoId: String? = nil
     if let v = e.pairedVideo {
       let r = try await client.upload(
         .init(
           fileURL: v.url, filename: v.filename, mimeType: v.mimeType, checksumHex: v.sha1Hex,
           createdAt: e.createdAt, modifiedAt: e.modifiedAt, isFavorite: false,
-          durationMs: nil, livePhotoVideoId: nil, visibility: "hidden", metadata: meta))
+          durationMs: nil, livePhotoVideoId: nil, visibility: "hidden", metadata: meta),
+        onProgress: uploading(v.filename))
       videoId = r.id
     }
     let r = try await client.upload(
@@ -508,7 +516,7 @@ actor SyncEngine {
         fileURL: e.primary.url, filename: e.primary.filename, mimeType: e.primary.mimeType,
         checksumHex: e.primary.sha1Hex, createdAt: e.createdAt, modifiedAt: e.modifiedAt,
         isFavorite: e.isFavorite, durationMs: e.durationMs, livePhotoVideoId: videoId,
-        visibility: nil, metadata: meta))
+        visibility: nil, metadata: meta), onProgress: uploading(e.primary.filename))
     if r.status == "duplicate" {
       try await requireInternal(r.id, filename: e.primary.filename)
       try await client.upsertMetadata([

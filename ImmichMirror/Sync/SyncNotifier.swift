@@ -81,7 +81,7 @@ enum SyncNotifier {
         "\(r.failures.count.formatted()) \(r.failures.count == 1 ? "item" : "items") failed.")
     }
     if r.cancelled {
-      lines.append("Continues where it left off on the next run.")
+      lines.append("Continues where it left off — open the app and tap Sync Now.")
     } else {
       lines.append("\(r.mirroredAfter.formatted()) of \(r.localCount.formatted()) photos mirrored.")
     }

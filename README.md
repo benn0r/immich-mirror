@@ -40,7 +40,7 @@ One sync pass:
 3. Favorite-only changes → update the flag.
 4. Edited photos → upload the new version, trash the old one.
 5. New photos → download the original from iCloud if needed (4 at a time, stalled downloads skipped after
-   2 minutes), hash, `bulk-upload-check`, then adopt or upload with metadata `immich-mirror: {localId, cloudId}`.
+   1 minute), hash, `bulk-upload-check`, then adopt or upload with metadata `immich-mirror: {localId, cloudId}`.
 6. Albums → create / rename / add / remove / delete to match iCloud. Each managed album carries the description
    `immich-mirror:<id>`, so the mapping can be rebuilt.
 

@@ -125,7 +125,9 @@ final class ImmichClient: @unchecked Sendable {
     var metadata: MirrorMetadata
   }
 
-  func upload(_ p: UploadParams) async throws -> UploadResponse {
+  func upload(_ p: UploadParams, onProgress: (@Sendable (Double) -> Void)? = nil) async throws
+    -> UploadResponse
+  {
     let boundary = "ImmichMirror-\(UUID().uuidString)"
     let bodyURL = try Multipart.write(
       boundary: boundary, fields: uploadFields(p), fileField: "assetData",
@@ -135,7 +137,8 @@ final class ImmichClient: @unchecked Sendable {
     r.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     r.setValue(p.checksumHex, forHTTPHeaderField: "x-immich-checksum")
     r.timeoutInterval = 600
-    let (data, resp) = try await session.upload(for: r, fromFile: bodyURL)
+    let delegate = onProgress.map(UploadProgressDelegate.init)
+    let (data, resp) = try await session.upload(for: r, fromFile: bodyURL, delegate: delegate)
     try check(data, resp)
     do { return try JSONDecoder().decode(UploadResponse.self, from: data) } catch {
       throw ImmichError.decoding("upload: \(error)")
@@ -304,5 +307,19 @@ enum Multipart {
 extension Array {
   func chunked(_ size: Int) -> [[Element]] {
     stride(from: 0, to: count, by: size).map { Array(self[$0..<Swift.min($0 + size, count)]) }
+  }
+}
+
+/// Reports the fraction of the request body sent (keeps background progress moving during big uploads).
+final class UploadProgressDelegate: NSObject, URLSessionTaskDelegate, @unchecked Sendable {
+  private let onProgress: @Sendable (Double) -> Void
+  init(_ onProgress: @escaping @Sendable (Double) -> Void) { self.onProgress = onProgress }
+
+  func urlSession(
+    _ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64,
+    totalBytesSent: Int64, totalBytesExpectedToSend: Int64
+  ) {
+    guard totalBytesExpectedToSend > 0 else { return }
+    onProgress(Double(totalBytesSent) / Double(totalBytesExpectedToSend))
   }
 }

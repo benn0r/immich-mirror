@@ -188,7 +188,7 @@ enum PhotoLibrary {
   }
 
   /// Abort a download that shows no progress for this long (iCloud can stall on large originals).
-  static var stallTimeout: TimeInterval = 120
+  static var stallTimeout: TimeInterval = 60
 
   /// Streams the resource to a temp file while hashing it. Cancellable; times out when stalled.
   private static func write(
