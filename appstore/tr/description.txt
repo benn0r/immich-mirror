@@ -1,0 +1,19 @@
+Photo Mirror Sync, kendi fotoğraf sunucunu iCloud Fotoğraflar arşivinle aynı tutar. Sadece büyüyen bir yedek değil, gerçek bir ayna.
+
+• Yeni fotoğraflar ve videolar orijinal olarak yüklenir: HEIC, ProRAW, 4K video ve hareketiyle birlikte Live Photos.
+• Düzenlenen fotoğraflar güncel sürümle değiştirilir, favoriler de takip eder.
+• iCloud'da sildiğin fotoğraflar sunucunun çöp kutusuna da gider. Hiçbir şey kalıcı olarak silinmez; büyük silme işlemleri onayını bekler.
+• iCloud albümlerin, klasörlerdekiler dahil, sunucuda albüm olur. Sunucuda kendin oluşturduğun albümlere asla dokunulmaz.
+
+KENDİ SUNUCUSUNU ÇALIŞTIRANLAR İÇİN
+Photo Mirror Sync, kendi barındırdığın Immich sunucusuyla (sürüm 3.3 veya üzeri) çalışır. Fotoğraflar doğrudan iPhone'undan sunucuna gider: başka bulut yok, bizde hesap yok, takip yok.
+
+TASARIMIYLA GÜVENLİ
+• Önce bir deneme yap: ne olacağını gör, yükleme boyutunu tahmin et ve hangi fotoğrafların zaten sunucuda olduğunu kontrol et.
+• Sunucuda zaten olan fotoğraflar sağlama toplamıyla tanınır ve iki kez yüklenmek yerine bağlanır.
+• Yarıda mı kaldı? Sonraki çalıştırma tam kaldığı yerden devam eder.
+
+ARKA PLANDA ÇALIŞIR
+Eşzamanlamayı başlat ve iPhone'unu kullanmaya devam et; ilerleme Kilitli Ekran'da görünür. iPhone şarj olurken gece eşzamanlaması çalışabilir ve bir bildirim neyin değiştiğini söyler.
+
+Photo Mirror Sync bağımsız bir uygulamadır; Immich projesiyle bağlantılı değildir ve onun tarafından onaylanmamıştır.

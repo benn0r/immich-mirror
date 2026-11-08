@@ -1,0 +1,19 @@
+Photo Mirror Sync garde votre propre serveur photo identique à votre photothèque iCloud. Pas une sauvegarde qui ne fait que grossir, mais un véritable miroir.
+
+• Les nouvelles photos et vidéos sont envoyées en originaux : HEIC, ProRAW, vidéo 4K et Live Photos avec leur mouvement.
+• Les photos retouchées sont remplacées par la version actuelle, et les favoris suivent.
+• Les photos que vous supprimez dans iCloud vont aussi dans la corbeille du serveur. Rien n'est supprimé définitivement, et les suppressions importantes attendent votre confirmation.
+• Vos albums iCloud deviennent des albums sur le serveur, y compris ceux rangés dans des dossiers. Les albums que vous créez vous-même sur le serveur ne sont jamais touchés.
+
+CONÇU POUR L'AUTO-HÉBERGEMENT
+Photo Mirror Sync fonctionne avec votre serveur Immich auto-hébergé (version 3.3 ou ultérieure). Les photos vont directement de votre iPhone à votre serveur : aucun autre cloud, aucun compte chez nous, aucun suivi.
+
+SÛR PAR CONCEPTION
+• Commencez par une simulation : voyez ce qui se passerait, estimez la taille à envoyer et vérifiez quelles photos sont déjà sur le serveur.
+• Les photos déjà présentes sur le serveur sont reconnues par somme de contrôle et reliées au lieu d'être envoyées deux fois.
+• Interrompu ? Le passage suivant reprend exactement là où il s'est arrêté.
+
+FONCTIONNE EN ARRIÈRE-PLAN
+Lancez une synchronisation et continuez d'utiliser votre iPhone ; la progression s'affiche sur l'écran verrouillé. Une synchronisation nocturne peut avoir lieu pendant la charge, et une notification vous indique ce qui a changé.
+
+Photo Mirror Sync est une app indépendante, sans lien avec le projet Immich et non approuvée par celui-ci.

@@ -84,6 +84,7 @@ npm run deploy        # signed Release build installed and launched on IOS_DEVIC
 npm run package       # archive and export a development-signed IPA to .build/export
 npm run icon          # regenerate the layered glass icon (Docs/icon/glass_icon.swift)
 npm run translations  # regenerate Localizable.xcstrings / InfoPlist.xcstrings from scripts/l10n
+npm run appstore:check # App Store listing texts (appstore/) within the limits for all 20 languages
 npm run lint && npm run format:check
 npm run format        # swift-format in place
 ```

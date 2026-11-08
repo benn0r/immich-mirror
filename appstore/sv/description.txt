@@ -1,0 +1,19 @@
+Photo Mirror Sync håller din egen bildserver identisk med ditt iCloud-bildbibliotek. Inte en säkerhetskopia som bara växer, utan en riktig spegel.
+
+• Nya bilder och videor laddas upp som original: HEIC, ProRAW, 4K-video och Live Photos med rörelse.
+• Redigerade bilder ersätts med den aktuella versionen, och favoriter följer med.
+• Bilder du raderar i iCloud hamnar också i serverns papperskorg. Inget raderas för gott, och stora raderingar väntar på din bekräftelse.
+• Dina iCloud-album blir album på servern, även de som ligger i mappar. Album som du själv skapar på servern rörs aldrig.
+
+GJORD FÖR DIG SOM KÖR EGEN SERVER
+Photo Mirror Sync fungerar med din självhostade Immich-server (version 3.3 eller senare). Bilderna går direkt från din iPhone till din server: inget annat moln, inget konto hos oss, ingen spårning.
+
+SÄKER FRÅN GRUNDEN
+• Börja med en testkörning: se vad som skulle hända, uppskatta uppladdningsstorleken och kontrollera vilka bilder som redan finns på servern.
+• Bilder som redan finns på servern känns igen via kontrollsumma och kopplas i stället för att laddas upp två gånger.
+• Avbruten? Nästa körning fortsätter exakt där den slutade.
+
+KÖRS I BAKGRUNDEN
+Starta en synkning och fortsätt använda din iPhone; förloppet visas på låsskärmen. En nattlig synkning kan köras medan din iPhone laddas, och en notis berättar vad som har ändrats.
+
+Photo Mirror Sync är en fristående app och är inte knuten till eller godkänd av Immich-projektet.

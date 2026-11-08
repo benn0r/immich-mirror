@@ -1,0 +1,19 @@
+Hello App Review,
+
+Photo Mirror Sync mirrors the user's photo library to their own self-hosted Immich photo server (open source, https://immich.app). It signs in to that server with the user's email and password; there is no account with us and no other backend.
+
+Demo server for review:
+  Server: <DEMO SERVER URL>
+  Email: <DEMO EMAIL>
+  Password: <DEMO PASSWORD>
+
+How to test:
+1. Enter the server URL, email and password above and tap "Sign In".
+2. Tap "Allow Access" and choose "Allow Full Access" (full access is required: with limited access, unselected photos would look deleted and would be removed from the server).
+3. "Run Dry Run" (on by default) only reports what would happen and changes nothing.
+4. To really sync: Settings > turn off "Dry run", optionally set "Upload limit per run" to 25 photos, then tap "Sync Now". Uploaded photos appear in the demo server's web interface and under "Mirrored photos" > "Recently Mirrored".
+5. Background: on iOS 26 the sync continues as a continued processing task after leaving the app, with progress in the system UI. A notification summarizes the result.
+
+Deleting a photo in the Photos app moves it to the server's trash on the next sync (never permanently deleted); more than 5% of the library at once needs confirmation.
+
+Thank you!

@@ -1,0 +1,19 @@
+Photo Mirror Sync mantiene il tuo server di foto identico alla tua libreria di Foto di iCloud. Non un backup che cresce e basta, ma un vero specchio.
+
+• Le nuove foto e i video vengono caricati come originali: HEIC, ProRAW, video 4K e Live Photo con il loro movimento.
+• Le foto modificate vengono sostituite con la versione attuale e i preferiti si aggiornano di conseguenza.
+• Le foto che elimini in iCloud finiscono anche nel cestino del server. Nulla viene eliminato definitivamente e le eliminazioni più grandi attendono la tua conferma.
+• I tuoi album di iCloud diventano album sul server, compresi quelli nelle cartelle. Gli album che crei tu sul server non vengono mai toccati.
+
+PENSATA PER CHI FA SELF-HOSTING
+Photo Mirror Sync funziona con il tuo server Immich self-hosted (versione 3.3 o successiva). Le foto vanno direttamente dal tuo iPhone al tuo server: nessun altro cloud, nessun account da noi, nessun tracciamento.
+
+SICURA PER PROGETTAZIONE
+• Inizia con una simulazione: vedi cosa succederebbe, stima la dimensione da caricare e controlla quali foto sono già sul server.
+• Le foto già presenti sul server vengono riconosciute tramite checksum e collegate invece di essere caricate due volte.
+• Interrotta? Il passaggio successivo riprende esattamente da dove si era fermato.
+
+FUNZIONA IN BACKGROUND
+Avvia una sincronizzazione e continua a usare l'iPhone; l'avanzamento compare nella schermata di blocco. Una sincronizzazione notturna può avvenire mentre l'iPhone è in carica e una notifica ti dice cosa è cambiato.
+
+Photo Mirror Sync è un'app indipendente, non affiliata né approvata dal progetto Immich.

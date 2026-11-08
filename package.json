@@ -15,6 +15,7 @@
     "lint": "find ImmichMirror ImmichMirrorTests -name '*.swift' -print0 | xargs -0 swiftc -parse",
     "format:check": "xcrun swift-format lint --recursive --strict ImmichMirror ImmichMirrorTests",
     "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests",
-    "translations": "python3 scripts/translations.py"
+    "translations": "python3 scripts/translations.py",
+    "appstore:check": "python3 scripts/appstore_check.py"
   }
 }

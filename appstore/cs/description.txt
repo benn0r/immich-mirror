@@ -1,0 +1,19 @@
+Photo Mirror Sync udržuje váš vlastní fotoserver shodný s knihovnou Fotek na iCloudu. Nejde o zálohu, která jen roste, ale o skutečné zrcadlo.
+
+• Nové fotky a videa se nahrávají jako originály: HEIC, ProRAW, 4K video a Live Photos s pohybem.
+• Upravené fotky se nahradí aktuální verzí a oblíbené se aktualizují také.
+• Fotky, které smažete na iCloudu, jdou také do koše na serveru. Nic se nemaže natrvalo a větší mazání čekají na vaše potvrzení.
+• Vaše alba z iCloudu se stanou alby na serveru, včetně těch ve složkách. Alba, která si sami vytvoříte na serveru, se nikdy nemění.
+
+PRO TY, KDO SI HOSTUJÍ SAMI
+Photo Mirror Sync funguje s vaším vlastním serverem Immich (verze 3.3 nebo novější). Fotky jdou přímo z iPhonu na váš server: žádný další cloud, žádný účet u nás, žádné sledování.
+
+BEZPEČNÁ OD ZÁKLADU
+• Začněte zkušebním během: uvidíte, co by se stalo, odhadnete velikost k nahrání a zjistíte, které fotky už na serveru jsou.
+• Fotky, které už na serveru jsou, se poznají podle kontrolního součtu a propojí se, místo aby se nahrávaly dvakrát.
+• Přerušeno? Další běh pokračuje přesně tam, kde skončil.
+
+BĚŽÍ NA POZADÍ
+Spusťte synchronizaci a dál používejte iPhone; průběh se zobrazuje na zamčené obrazovce. Noční synchronizace může běžet při nabíjení a oznámení vám řekne, co se změnilo.
+
+Photo Mirror Sync je nezávislá aplikace a není spojena s projektem Immich ani jím schválena.

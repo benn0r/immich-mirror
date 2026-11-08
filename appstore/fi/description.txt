@@ -1,0 +1,19 @@
+Photo Mirror Sync pitää oman kuvapalvelimesi samana kuin iCloud-kuvakirjastosi. Ei varmuuskopio, joka vain kasvaa, vaan aito peili.
+
+• Uudet kuvat ja videot lähetetään alkuperäisinä: HEIC, ProRAW, 4K-video ja Live Photos liikkeineen.
+• Muokatut kuvat korvataan nykyisellä versiolla, ja suosikit päivittyvät mukana.
+• iCloudista poistamasi kuvat siirtyvät myös palvelimen roskakoriin. Mitään ei poisteta pysyvästi, ja suuret poistot odottavat vahvistustasi.
+• iCloud-albumeistasi tulee albumeja palvelimelle, myös kansioissa olevista. Itse palvelimelle luomiisi albumeihin ei kosketa.
+
+TEHTY OMAN PALVELIMEN YLLÄPITÄJILLE
+Photo Mirror Sync toimii itse ylläpitämäsi Immich-palvelimen kanssa (versio 3.3 tai uudempi). Kuvat kulkevat suoraan iPhonesta palvelimellesi: ei muuta pilveä, ei tiliä meillä, ei seurantaa.
+
+TURVALLINEN ALUSTA ASTI
+• Aloita koeajolla: näe, mitä tapahtuisi, arvioi lähetettävä koko ja tarkista, mitkä kuvat ovat jo palvelimella.
+• Palvelimella jo olevat kuvat tunnistetaan tarkistussumman avulla ja liitetään sen sijaan, että ne lähetettäisiin kahdesti.
+• Keskeytyikö? Seuraava kerta jatkaa täsmälleen siitä, mihin jäi.
+
+TOIMII TAUSTALLA
+Käynnistä synkronointi ja jatka iPhonen käyttöä; edistyminen näkyy lukitusnäytöllä. Yöllinen synkronointi voi käydä iPhonen latautuessa, ja ilmoitus kertoo, mikä muuttui.
+
+Photo Mirror Sync on itsenäinen appi, eikä se ole Immich-projektin tekemä tai hyväksymä.
