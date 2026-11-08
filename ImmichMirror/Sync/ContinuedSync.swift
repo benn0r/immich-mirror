@@ -25,7 +25,7 @@ enum ContinuedSync {
   /// in which case the caller runs the sync in the foreground as before.
   static func submit() -> Bool {
     let request = BGContinuedProcessingTaskRequest(
-      identifier: identifier, title: "Photo Mirror", subtitle: "Starting sync…")
+      identifier: identifier, title: "Photo Mirror", subtitle: String(localized: "Starting sync…"))
     request.strategy = .fail
     do {
       try BGTaskScheduler.shared.submit(request)

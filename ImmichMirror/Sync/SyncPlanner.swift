@@ -13,6 +13,8 @@ struct AssetPlan: Equatable {
   var favoriteOnly: [String] = []  // only favorite flag differs
   var removed: [MirrorRecord] = []  // gone from iCloud → trash on server
   var deletionBlockedReason: String? = nil
+  /// The block can never be confirmed (empty library: almost certainly a permission or iCloud glitch).
+  var deletionBlockedHard = false
 
   var deletionBlocked: Bool { deletionBlockedReason != nil }
 }
@@ -60,13 +62,16 @@ enum SyncPlanner {
 
     if !plan.removed.isEmpty {
       if local.isEmpty {
-        plan.deletionBlockedReason =
-          "The photo library appears empty — refusing to trash \(plan.removed.count) photos."
+        plan.deletionBlockedReason = String(
+          localized:
+            "The photo library appears empty — refusing to trash \(plan.removed.count) photos.")
+        plan.deletionBlockedHard = true
       } else {
         let limit = max(g.alwaysAllowUpTo, Int(Double(stored.count) * g.maxFraction))
         if plan.removed.count > limit {
-          plan.deletionBlockedReason =
-            "\(plan.removed.count) photos would be trashed (limit \(limit)). Confirm to proceed."
+          plan.deletionBlockedReason = String(
+            localized:
+              "\(plan.removed.count) photos would be trashed (limit \(limit)). Confirm to proceed.")
         }
       }
     }
@@ -89,8 +94,9 @@ enum SyncPlanner {
       $0.localId < $1.localId
     }
     if local.isEmpty && !plan.delete.isEmpty {
-      plan.deletionBlockedReason =
-        "No albums found locally — refusing to delete \(plan.delete.count) Immich albums."
+      plan.deletionBlockedReason = String(
+        localized:
+          "No albums found locally — refusing to delete \(plan.delete.count) Immich albums.")
     }
     return plan
   }

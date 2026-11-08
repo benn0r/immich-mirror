@@ -22,7 +22,7 @@ struct SettingsView: View {
           Text("No limit").tag(0)
           Text("25 photos").tag(25)
           Text("100 photos").tag(100)
-          Text("1'000 photos").tag(1000)
+          Text("1,000 photos").tag(1000)
         }
       } footer: {
         Text(

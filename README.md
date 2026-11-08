@@ -29,6 +29,11 @@ the original internal name `ImmichMirror` / `immich-mirror`.
 - **Resumable**: every photo is recorded the moment it is on the server; a stopped, crashed or killed run
   continues where it left off without duplicates.
 - **Recently mirrored**: the last 200 mirrored photos with direct links into Immich.
+- **Languages**: English, German, French, Italian, Spanish, Dutch, Portuguese (Portugal and Brazil), Swedish,
+  Danish, Norwegian, Finnish, Japanese, Polish, Chinese (Simplified and Traditional), Korean, Ukrainian, Czech and
+  Turkish, following the iPhone's language, with proper plural forms. The home screen name stays “Photo Mirror”
+  everywhere; the sync log stays English for diagnostics. Translations live in `scripts/l10n/<lang>.py` and
+  `npm run translations` generates the string catalogs (it fails on missing keys or mismatched placeholders).
 - **Liquid Glass icon**: layered `.icon`; sun, peaks and sync arrows are separate glass layers.
 
 ## How it works
@@ -78,6 +83,7 @@ npm run ios:release   # signed Release build
 npm run deploy        # signed Release build installed and launched on IOS_DEVICE_ID
 npm run package       # archive and export a development-signed IPA to .build/export
 npm run icon          # regenerate the layered glass icon (Docs/icon/glass_icon.swift)
+npm run translations  # regenerate Localizable.xcstrings / InfoPlist.xcstrings from scripts/l10n
 npm run lint && npm run format:check
 npm run format        # swift-format in place
 ```

@@ -26,7 +26,7 @@ enum SyncNotifier {
   }
 
   static func notify(error: Error) {
-    post(title: "Sync failed", body: error.localizedDescription)
+    post(title: String(localized: "Sync failed"), body: error.localizedDescription)
   }
 
   private static func post(title: String, body: String) {
@@ -54,36 +54,43 @@ enum SyncNotifier {
   static func summary(_ r: SyncReport) -> (title: String, body: String) {
     let title =
       r.cancelled
-      ? "Sync stopped" : (r.failures.isEmpty ? "Sync finished" : "Sync finished with errors")
+      ? String(localized: "Sync stopped")
+      : (r.failures.isEmpty
+        ? String(localized: "Sync finished") : String(localized: "Sync finished with errors"))
+    // One localized key per count so every language gets its own plural forms.
     var parts: [String] = []
-    func add(_ n: Int, _ one: String, _ many: String) {
-      if n > 0 { parts.append("\(n.formatted()) \(n == 1 ? one : many)") }
+    if r.uploaded > 0 { parts.append(String(localized: "\(r.uploaded) photos uploaded")) }
+    if r.adopted > 0 { parts.append(String(localized: "\(r.adopted) already on server")) }
+    if r.reuploaded > 0 { parts.append(String(localized: "\(r.reuploaded) edits updated")) }
+    if r.restored > 0 { parts.append(String(localized: "\(r.restored) restored from trash")) }
+    if r.favoritesUpdated > 0 {
+      parts.append(String(localized: "\(r.favoritesUpdated) favorites updated"))
     }
-    add(r.uploaded, "photo uploaded", "photos uploaded")
-    add(r.adopted, "already on server", "already on server")
-    add(r.reuploaded, "edit updated", "edits updated")
-    add(r.restored, "restored from trash", "restored from trash")
-    add(r.favoritesUpdated, "favorite updated", "favorites updated")
-    add(r.trashed, "moved to trash", "moved to trash")
-    add(r.albumsCreated, "album created", "albums created")
-    add(r.albumsRenamed, "album renamed", "albums renamed")
-    add(r.albumsDeleted, "album deleted", "albums deleted")
+    if r.trashed > 0 { parts.append(String(localized: "\(r.trashed) moved to trash")) }
+    if r.albumsCreated > 0 { parts.append(String(localized: "\(r.albumsCreated) albums created")) }
+    if r.albumsRenamed > 0 { parts.append(String(localized: "\(r.albumsRenamed) albums renamed")) }
+    if r.albumsDeleted > 0 { parts.append(String(localized: "\(r.albumsDeleted) albums deleted")) }
     let albumChanges = r.albumAssetsAdded + r.albumAssetsRemoved
-    if albumChanges > 0, r.albumsCreated == 0 { add(albumChanges, "album change", "album changes") }
+    if albumChanges > 0, r.albumsCreated == 0 {
+      parts.append(String(localized: "\(albumChanges) album changes"))
+    }
 
     var lines: [String] = []
-    lines.append(parts.isEmpty ? "Everything up to date." : parts.joined(separator: " · "))
+    lines.append(
+      parts.isEmpty ? String(localized: "Everything up to date.") : parts.joined(separator: " · "))
     if r.deletionBlockedReason != nil, r.pendingDeletions > 0 {
-      lines.append("\(r.pendingDeletions.formatted()) deletions wait for your confirmation.")
+      lines.append(String(localized: "\(r.pendingDeletions) deletions wait for your confirmation."))
     }
     if !r.failures.isEmpty {
-      lines.append(
-        "\(r.failures.count.formatted()) \(r.failures.count == 1 ? "item" : "items") failed.")
+      lines.append(String(localized: "\(r.failures.count) items failed."))
     }
     if r.cancelled {
-      lines.append("Continues where it left off — open the app and tap Sync Now.")
+      lines.append(
+        String(localized: "Continues where it left off — open the app and tap Sync Now."))
     } else {
-      lines.append("\(r.mirroredAfter.formatted()) of \(r.localCount.formatted()) photos mirrored.")
+      let mirrored = r.mirroredAfter.formatted()
+      let total = r.localCount.formatted()
+      lines.append(String(localized: "\(mirrored) of \(total) photos mirrored."))
     }
     return (title, lines.joined(separator: "\n"))
   }

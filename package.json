@@ -14,6 +14,7 @@
     "icon": "swift Docs/icon/glass_icon.swift ImmichMirror/AppIcon.icon",
     "lint": "find ImmichMirror ImmichMirrorTests -name '*.swift' -print0 | xargs -0 swiftc -parse",
     "format:check": "xcrun swift-format lint --recursive --strict ImmichMirror ImmichMirrorTests",
-    "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests"
+    "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests",
+    "translations": "python3 scripts/translations.py"
   }
 }

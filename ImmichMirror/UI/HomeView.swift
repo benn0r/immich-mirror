@@ -52,7 +52,9 @@ struct HomeView: View {
     Section {
       VStack(alignment: .leading, spacing: 8) {
         Label(
-          model.photoStatus == .limited ? "Limited photo access" : "Photo access needed",
+          model.photoStatus == .limited
+            ? LocalizedStringKey("Limited photo access")
+            : LocalizedStringKey("Photo access needed"),
           systemImage: "photo.badge.exclamationmark"
         ).font(.headline)
         Text(
@@ -80,7 +82,8 @@ struct HomeView: View {
       } label: {
         LabeledContent("Mirrored photos", value: model.mirroredCount.formatted())
       }
-      LabeledContent("Last sync", value: model.lastSync.flatMap(Self.formatDate) ?? "Never")
+      LabeledContent(
+        "Last sync", value: model.lastSync.flatMap(Self.formatDate) ?? String(localized: "Never"))
       if model.settings.dryRun {
         Label("Dry run mode — nothing will be changed", systemImage: "eye")
           .font(.footnote).foregroundStyle(.orange)
@@ -114,7 +117,8 @@ struct HomeView: View {
           model.sync()
         } label: {
           Label(
-            model.settings.dryRun ? "Run Dry Run" : "Sync Now",
+            model.settings.dryRun
+              ? LocalizedStringKey("Run Dry Run") : LocalizedStringKey("Sync Now"),
             systemImage: model.settings.dryRun ? "eye" : "arrow.triangle.2.circlepath")
         }
         .disabled(model.photoStatus != .authorized)
@@ -147,7 +151,8 @@ struct ReportSection: View {
   let onConfirmDeletion: () -> Void
 
   var body: some View {
-    Section(report.dryRun ? "Dry Run Result" : "Last Sync") {
+    Section(report.dryRun ? LocalizedStringKey("Dry Run Result") : LocalizedStringKey("Last Sync"))
+    {
       row("Photos in iCloud", report.localCount)
       row("New since last sync", report.newFound)
       if report.dryRun, report.estimatedUploadBytes > 0 {
@@ -173,7 +178,10 @@ struct ReportSection: View {
         row("Moved to trash", report.trashed)
       }
       row("Edited since last sync", report.changedFound)
-      row(report.dryRun ? "Would move to trash" : "Pending deletions", report.pendingDeletions)
+      row(
+        report.dryRun
+          ? LocalizedStringKey("Would move to trash") : LocalizedStringKey("Pending deletions"),
+        report.pendingDeletions)
       if report.albumsCreated + report.albumsRenamed + report.albumsDeleted
         + report.albumAssetsAdded + report.albumAssetsRemoved > 0
       {
@@ -188,7 +196,7 @@ struct ReportSection: View {
       if let reason = report.deletionBlockedReason {
         VStack(alignment: .leading, spacing: 8) {
           Label(reason, systemImage: "hand.raised").foregroundStyle(.orange).font(.footnote)
-          if !report.dryRun, !reason.hasPrefix("The photo library appears empty") {
+          if !report.dryRun, !report.deletionBlockedHard {
             Button("Review & Confirm…", action: onConfirmDeletion).buttonStyle(.bordered)
           }
         }
@@ -229,7 +237,7 @@ struct ReportSection: View {
     }
   }
 
-  @ViewBuilder private func row(_ label: String, _ value: Int) -> some View {
+  @ViewBuilder private func row(_ label: LocalizedStringKey, _ value: Int) -> some View {
     LabeledContent(label, value: value.formatted())
   }
 }

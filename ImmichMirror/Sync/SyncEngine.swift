@@ -58,6 +58,7 @@ struct SyncReport: Equatable {
   var favoritesUpdated = 0
   var trashed = 0
   var deletionBlockedReason: String?
+  var deletionBlockedHard = false
   var pendingDeletions = 0
 
   var sampled = 0  // dry run: how many new photos were hashed for the estimate
@@ -117,7 +118,7 @@ actor SyncEngine {
     try PhotoLibrary.requireFullAccess()
     guard try await client.validateToken() else { throw ImmichError.unauthorized }
 
-    onProgress(.init(phase: "Scanning library"))
+    onProgress(.init(phase: String(localized: "Scanning library")))
     let local = PhotoLibrary.localAssets()
     let localById = Dictionary(local.map { ($0.localId, $0) }, uniquingKeysWith: { a, _ in a })
     var stored = try store.allAssets()
@@ -132,7 +133,7 @@ actor SyncEngine {
     )
 
     if dry, !plan.new.isEmpty {
-      onProgress(.init(phase: "Measuring library size"))
+      onProgress(.init(phase: String(localized: "Measuring library size")))
       report.estimatedUploadBytes = PhotoLibrary.estimatedSize(of: plan.new)
       onLog(
         "[dry run] new photos total ≈ \(ByteCountFormatter.string(fromByteCount: report.estimatedUploadBytes, countStyle: .file))"
@@ -188,7 +189,8 @@ actor SyncEngine {
     var r = r
     r.finishedAt = Date()
     if !dry { try? store.set("lastSync", ISO8601.string(Date())) }
-    onProgress(.init(phase: r.cancelled ? "Cancelled" : "Done"))
+    onProgress(
+      .init(phase: r.cancelled ? String(localized: "Cancelled") : String(localized: "Done")))
     return r
   }
 
@@ -201,6 +203,7 @@ actor SyncEngine {
     report.pendingDeletions = plan.removed.count
     if let reason = plan.deletionBlockedReason, !(confirmed && !reasonIsHardBlock(plan)) {
       report.deletionBlockedReason = reason
+      report.deletionBlockedHard = plan.deletionBlockedHard
       onLog("⚠️ Deletion blocked: \(reason)")
       return
     }
@@ -208,7 +211,10 @@ actor SyncEngine {
       onLog("[dry run] would move \(plan.removed.count) photos to Immich trash")
       return
     }
-    onProgress(.init(phase: "Moving deleted photos to trash", done: 0, total: plan.removed.count))
+    onProgress(
+      .init(
+        phase: String(localized: "Moving deleted photos to trash"), done: 0,
+        total: plan.removed.count))
     var done = 0
     for chunk in plan.removed.chunked(200) {
       let ids = chunk.flatMap { [$0.immichId] + ($0.liveVideoImmichId.map { [$0] } ?? []) }
@@ -217,14 +223,16 @@ actor SyncEngine {
       done += chunk.count
       report.trashed += chunk.count
       onProgress(
-        .init(phase: "Moving deleted photos to trash", done: done, total: plan.removed.count))
+        .init(
+          phase: String(localized: "Moving deleted photos to trash"), done: done,
+          total: plan.removed.count))
     }
     onLog("Trashed \(report.trashed) photos deleted from iCloud")
   }
 
   /// An empty library is never confirmable — that is almost certainly a permission or iCloud glitch.
   private func reasonIsHardBlock(_ plan: AssetPlan) -> Bool {
-    plan.deletionBlockedReason?.hasPrefix("The photo library appears empty") == true
+    plan.deletionBlockedHard
   }
 
   // MARK: - Favorites
@@ -265,7 +273,8 @@ actor SyncEngine {
     }
     for (i, localId) in ids.enumerated() {
       if Task.isCancelled { return }
-      onProgress(.init(phase: "Checking edited photos", done: i, total: ids.count))
+      onProgress(
+        .init(phase: String(localized: "Checking edited photos"), done: i, total: ids.count))
       guard var rec = stored[localId] else { continue }
       do {
         let progress = onProgress
@@ -273,8 +282,9 @@ actor SyncEngine {
         let exp = try await PhotoLibrary.export(localId: localId) { name, f in
           progress(
             .init(
-              phase: "Checking edited photos", done: i, total: n,
-              detail: "\(name) · downloading from iCloud \(Int(f * 100))%", tick: true))
+              phase: String(localized: "Checking edited photos"), done: i, total: n,
+              detail: String(localized: "\(name) · downloading from iCloud \(Int(f * 100))%"),
+              tick: true))
         }
         defer { exp.cleanup() }
         if exp.primary.sha1Base64 == rec.checksum {
@@ -320,7 +330,10 @@ actor SyncEngine {
     if !dry, work.count < ids.count {
       onLog("Upload limit: \(work.count) of \(ids.count) new photos this run")
     }
-    let phase = dry ? "Estimating (sample of \(work.count))" : "Uploading new photos"
+    let phase =
+      dry
+      ? String(localized: "Estimating (sample of \(work.count))")
+      : String(localized: "Uploading new photos")
     var done = 0
     for batch in work.chunked(24) {
       if Task.isCancelled { return }
@@ -378,7 +391,9 @@ actor SyncEngine {
             report.adopted += 1
             if report.placed.count < 500 {
               report.placed.append(
-                .init(filename: e.primary.filename, immichId: existing, how: "adopted"))
+                .init(
+                  filename: e.primary.filename, immichId: existing,
+                  how: String(localized: "adopted")))
             }
           } else if res?.action == "reject" {
             report.failures.append("\(e.primary.filename): rejected (\(res?.reason ?? "unknown"))")
@@ -392,7 +407,8 @@ actor SyncEngine {
               report.placed.append(
                 .init(
                   filename: e.primary.filename, immichId: placed.id,
-                  how: e.pairedVideo != nil ? "live photo" : "uploaded"))
+                  how: e.pairedVideo != nil
+                    ? String(localized: "live photo") : String(localized: "uploaded")))
             }
           }
           let rec = MirrorRecord(
@@ -466,7 +482,9 @@ actor SyncEngine {
               progress(
                 .init(
                   phase: phase, done: doneBefore, total: total,
-                  detail: "\(name) · downloading from iCloud \(Int(fraction * 100))%", tick: true))
+                  detail: String(
+                    localized: "\(name) · downloading from iCloud \(Int(fraction * 100))%"),
+                  tick: true))
             }
             return (id, .success(e))
           } catch { return (id, .failure(error)) }
@@ -498,7 +516,11 @@ actor SyncEngine {
     let meta = MirrorMetadata(localId: e.localId, cloudId: cloudId)
     let progress = onProgress
     func uploading(_ name: String) -> @Sendable (Double) -> Void {
-      { f in progress(.init(phase: "", detail: "\(name) · uploading \(Int(f * 100))%", tick: true))
+      { f in
+        progress(
+          .init(
+            phase: "", detail: String(localized: "\(name) · uploading \(Int(f * 100))%"), tick: true
+          ))
       }
     }
     var videoId: String? = nil
@@ -529,7 +551,10 @@ actor SyncEngine {
   struct ExternalLibraryConflict: LocalizedError {
     let filename: String
     var errorDescription: String? {
-      "\(filename): identical file exists in an external library — left untouched, not mirrored"
+      String(
+        localized:
+          "\(filename): identical file exists in an external library — left untouched, not mirrored"
+      )
     }
   }
 
@@ -548,7 +573,7 @@ actor SyncEngine {
   // MARK: - Albums
 
   private func syncAlbums(mapping: [String: MirrorRecord], report: inout SyncReport) async throws {
-    onProgress(.init(phase: "Syncing albums"))
+    onProgress(.init(phase: String(localized: "Syncing albums")))
     let local = PhotoLibrary.albums()
     var stored = try store.allAlbums()
 
@@ -593,7 +618,7 @@ actor SyncEngine {
       report.albumsCreated += 1
       report.albumAssetsAdded += members.count
       done += 1
-      onProgress(.init(phase: "Syncing albums", done: done, total: total))
+      onProgress(.init(phase: String(localized: "Syncing albums"), done: done, total: total))
     }
     for r in plan.rename {
       try await client.renameAlbum(id: r.record.immichId, name: r.newName)
@@ -613,7 +638,7 @@ actor SyncEngine {
       report.albumAssetsAdded += add.count
       report.albumAssetsRemoved += remove.count
       done += 1
-      onProgress(.init(phase: "Syncing albums", done: done, total: total))
+      onProgress(.init(phase: String(localized: "Syncing albums"), done: done, total: total))
     }
     if let reason = plan.deletionBlockedReason {
       onLog("⚠️ \(reason)")

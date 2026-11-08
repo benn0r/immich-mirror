@@ -8,10 +8,10 @@ enum ImmichError: LocalizedError {
 
   var errorDescription: String? {
     switch self {
-    case .badURL: return "Invalid server URL"
+    case .badURL: return String(localized: "Invalid server URL")
     case .http(let code, let body): return "HTTP \(code): \(body.prefix(200))"
-    case .unauthorized: return "Session expired — please sign in again"
-    case .decoding(let s): return "Unexpected server response: \(s)"
+    case .unauthorized: return String(localized: "Session expired — please sign in again")
+    case .decoding(let s): return String(localized: "Unexpected server response: \(s)")
     }
   }
 }

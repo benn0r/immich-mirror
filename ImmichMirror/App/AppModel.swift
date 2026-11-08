@@ -101,7 +101,7 @@ final class AppModel {
         self?.start(confirmMassDeletion: confirmMassDeletion, continued: bgTask)
       }
       if ContinuedSync.submit() {
-        progress = SyncProgress(phase: "Starting in background…")
+        progress = SyncProgress(phase: String(localized: "Starting in background…"))
         return
       }
       append("Background sync not available right now — running in the foreground")

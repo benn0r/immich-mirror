@@ -47,10 +47,13 @@ enum PhotoLibraryError: LocalizedError {
     switch self {
     case .notAuthorized(let s):
       return s == .limited
-        ? "Full photo access is required. With limited access every unselected photo would look deleted."
-        : "Photo library access not granted."
-    case .assetMissing(let id): return "Photo \(id) no longer exists"
-    case .noResource(let id): return "No original file for \(id)"
+        ? String(
+          localized:
+            "Full photo access is required. With limited access every unselected photo would look deleted."
+        )
+        : String(localized: "Photo library access not granted.")
+    case .assetMissing(let id): return String(localized: "Photo \(id) no longer exists")
+    case .noResource(let id): return String(localized: "No original file for \(id)")
     }
   }
 }
@@ -247,7 +250,9 @@ enum PhotoLibrary {
 struct ExportStalledError: LocalizedError {
   let filename: String
   let seconds: Int
-  var errorDescription: String? { "\(filename): iCloud download stalled for \(seconds)s — skipped" }
+  var errorDescription: String? {
+    String(localized: "\(filename): iCloud download stalled for \(seconds)s — skipped")
+  }
 }
 
 /// State for one streaming resource request. PhotoKit calls back on its own queues → guarded by a lock.

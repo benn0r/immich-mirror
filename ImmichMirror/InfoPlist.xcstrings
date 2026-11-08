@@ -1,0 +1,130 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "shouldTranslate" : false
+    },
+    "CFBundleName" : {
+      "shouldTranslate" : false
+    },
+    "NSPhotoLibraryUsageDescription" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror liest deine Fotomediathek, um sie auf deinen Immich-Server zu spiegeln – inklusive Löschungen und Alben."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror lit votre photothèque pour la reproduire sur votre serveur Immich — y compris les suppressions et les albums."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror legge la tua libreria foto per replicarla sul tuo server Immich — comprese eliminazioni e album."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror lee tu fototeca para replicarla en tu servidor Immich — incluidas eliminaciones y álbumes."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror leest je fotobibliotheek om die naar je Immich-server te spiegelen — inclusief verwijderingen en albums."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Photo Mirror lê a sua fototeca para a espelhar no seu servidor Immich — incluindo eliminações e álbuns."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Photo Mirror lê sua fototeca para espelhá-la no seu servidor Immich — incluindo exclusões e álbuns."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror läser ditt bildbibliotek för att spegla det till din Immich-server – inklusive raderingar och album."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror læser dit billedbibliotek for at spejle det til din Immich-server – inklusive sletninger og albummer."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror leser bildebiblioteket ditt for å speile det til Immich-serveren din – inkludert slettinger og album."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror lukee kuvakirjastoasi peilatakseen sen Immich-palvelimellesi – myös poistot ja albumit."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirrorは写真ライブラリを読み取り、削除やアルバムも含めてImmichサーバにミラーします。"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror odczytuje Twoją bibliotekę zdjęć, aby odzwierciedlić ją na Twoim serwerze Immich — łącznie z usunięciami i albumami."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror 会读取你的照片图库，并将其镜像到你的 Immich 服务器 — 包括删除和相簿。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror 會讀取你的照片圖庫，並將其鏡像到你的 Immich 伺服器 — 包括刪除和相簿。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror는 사진 보관함을 읽어 삭제 및 앨범을 포함해 Immich 서버에 미러링합니다."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror читає вашу фотобібліотеку, щоб віддзеркалити її на ваш сервер Immich — разом із видаленнями й альбомами."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror čte vaši knihovnu fotek, aby ji zrcadlil na váš server Immich — včetně mazání a alb."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo Mirror, fotoğraf arşivinizi okuyarak silmeler ve albümler dahil Immich sunucunuza yansıtır."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

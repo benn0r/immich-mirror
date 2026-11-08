@@ -41,6 +41,6 @@ struct RecentView: View {
     assets.enumerateObjects { a, _, _ in
       names[a.localIdentifier] = PHAssetResource.assetResources(for: a).first?.originalFilename
     }
-    rows = recs.map { ($0, names[$0.localId] ?? "(deleted in iCloud)") }
+    rows = recs.map { ($0, names[$0.localId] ?? String(localized: "(deleted in iCloud)")) }
   }
 }
