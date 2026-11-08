@@ -16,6 +16,13 @@ final class AppModel {
     }
   }
 
+  var notifyOnFinish = SyncNotifier.isEnabled {
+    didSet {
+      SyncNotifier.isEnabled = notifyOnFinish
+      if notifyOnFinish { Task { await SyncNotifier.requestPermissionIfNeeded() } }
+    }
+  }
+
   var photoStatus: PHAuthorizationStatus = PhotoLibrary.status
   var isRunning = false
   var progress: SyncProgress?
@@ -87,6 +94,7 @@ final class AppModel {
     guard !isRunning, session != nil else { return }
     isRunning = true
     lastError = nil
+    if !settings.dryRun { Task { await SyncNotifier.requestPermissionIfNeeded() } }
     // Dry runs are quick — only real syncs go to the background.
     if #available(iOS 26.0, *), !settings.dryRun {
       ContinuedSync.onLaunch = { [weak self] bgTask in
@@ -141,16 +149,21 @@ final class AppModel {
         let report = try await engine.run(confirmMassDeletion: confirmMassDeletion)
         self.lastReport = report
         success = !report.cancelled
+        if UIApplication.shared.applicationState != .active { SyncNotifier.notify(report) }
         if !report.failures.isEmpty {
           self.append("\(report.failures.count) items failed — see report")
         }
       } catch ImmichError.unauthorized {
         self.lastError = ImmichError.unauthorized.localizedDescription
+        if UIApplication.shared.applicationState != .active {
+          SyncNotifier.notify(error: ImmichError.unauthorized)
+        }
         Keychain.clear()
         self.session = nil
       } catch {
         self.lastError = error.localizedDescription
         self.append("Error: \(error.localizedDescription)")
+        if UIApplication.shared.applicationState != .active { SyncNotifier.notify(error: error) }
       }
     }
   }

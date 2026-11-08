@@ -46,6 +46,14 @@ struct SettingsView: View {
       }
 
       Section {
+        Toggle("Notify when a sync finishes", isOn: $model.notifyOnFinish)
+      } footer: {
+        Text(
+          "A summary of what was uploaded, trashed and changed in albums — when the sync ends while you are not in the app. Nightly syncs only notify when something changed."
+        )
+      }
+
+      Section {
         Toggle("Background sync", isOn: $model.backgroundSyncEnabled)
           .disabled(model.settings.dryRun)
       } footer: {

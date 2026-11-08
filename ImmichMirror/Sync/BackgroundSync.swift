@@ -39,8 +39,15 @@ enum BackgroundSync {
     let engine = SyncEngine(
       client: client, store: store, settings: settings, onProgress: { _ in }, onLog: { _ in })
     let work = Task {
-      let ok = (try? await engine.run(confirmMassDeletion: false)) != nil
-      task.setTaskCompleted(success: ok)
+      do {
+        let report = try await engine.run(confirmMassDeletion: false)
+        // Nightly runs only notify when something happened, not every "up to date".
+        if SyncNotifier.hasNews(report) { SyncNotifier.notify(report) }
+        task.setTaskCompleted(success: !report.cancelled)
+      } catch {
+        SyncNotifier.notify(error: error)
+        task.setTaskCompleted(success: false)
+      }
     }
     task.expirationHandler = { work.cancel() }
   }

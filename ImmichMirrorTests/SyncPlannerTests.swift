@@ -136,3 +136,47 @@ final class MirrorStoreTests: XCTestCase {
     )
   }
 }
+
+final class SyncNotifierTests: XCTestCase {
+  private func report(_ edit: (inout SyncReport) -> Void) -> SyncReport {
+    var r = SyncReport(dryRun: false)
+    r.localCount = 48_573
+    r.mirroredAfter = 48_573
+    edit(&r)
+    return r
+  }
+
+  func testUpToDate() {
+    let (title, body) = SyncNotifier.summary(report { _ in })
+    XCTAssertEqual(title, "Sync finished")
+    XCTAssertTrue(body.hasPrefix("Everything up to date."))
+    XCTAssertFalse(SyncNotifier.hasNews(report { _ in }))
+  }
+
+  func testCountsAndPlurals() {
+    let r = report {
+      $0.uploaded = 120
+      $0.trashed = 1
+      $0.albumsCreated = 2
+    }
+    let body = SyncNotifier.summary(r).body
+    XCTAssertTrue(body.contains("photos uploaded"), body)
+    XCTAssertTrue(body.contains("1 moved to trash"), body)
+    XCTAssertTrue(body.contains("2 albums created"), body)
+    XCTAssertTrue(SyncNotifier.hasNews(r))
+  }
+
+  func testStoppedAndBlockedAndFailures() {
+    let r = report {
+      $0.cancelled = true
+      $0.deletionBlockedReason = "too many"
+      $0.pendingDeletions = 300
+      $0.failures = ["a", "b"]
+    }
+    let (title, body) = SyncNotifier.summary(r)
+    XCTAssertEqual(title, "Sync stopped")
+    XCTAssertTrue(body.contains("300 deletions wait for your confirmation."), body)
+    XCTAssertTrue(body.contains("2 items failed."), body)
+    XCTAssertTrue(body.contains("Continues where it left off"), body)
+  }
+}

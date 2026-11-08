@@ -15,9 +15,20 @@ if [[ -f .env ]]; then
 fi
 if [[ -n "${OP_ENVIRONMENT_ID:-}" && -z "${IMMICH_MIRROR_OP_LOADED:-}" ]]; then
   command -v op >/dev/null || { echo "1Password CLI (op) 2.41+ is required: brew install 1password-cli" >&2; exit 1; }
+  echo "Loading signing secrets from 1Password Environment $OP_ENVIRONMENT_ID ($(op --version))"
   exec op run --environment "$OP_ENVIRONMENT_ID" -- env IMMICH_MIRROR_OP_LOADED=1 bash "$0" "$@"
 fi
-: "${IOS_DEVELOPMENT_TEAM:?Set IOS_DEVELOPMENT_TEAM (or OP_ENVIRONMENT_ID)}"
+if [[ -z "${IOS_DEVELOPMENT_TEAM:-}" ]]; then
+  if [[ -n "${IMMICH_MIRROR_OP_LOADED:-}" ]]; then
+    echo "1Password Environment $OP_ENVIRONMENT_ID was loaded but has no IOS_DEVELOPMENT_TEAM." >&2
+    echo "Variables it provided: $(env | grep -oE '^(IOS_DEVELOPMENT_TEAM|ASC_[A-Z0-9_]+)=' | tr -d = | xargs)" >&2
+  elif [[ -n "${CI:-}${GITEA_ACTIONS:-}" ]]; then
+    echo "OP_ENVIRONMENT_ID is empty: set it in Gitea as a repository variable or secret." >&2
+  else
+    echo "Set IOS_DEVELOPMENT_TEAM in .env, or OP_ENVIRONMENT_ID to load it from 1Password." >&2
+  fi
+  exit 1
+fi
 npm run -s project:generate >/dev/null
 rm -rf .build/ImmichMirror.xcarchive .build/export
 mkdir -p .build
