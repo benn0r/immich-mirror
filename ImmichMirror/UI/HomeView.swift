@@ -4,6 +4,7 @@ import SwiftUI
 struct HomeView: View {
   @Environment(AppModel.self) private var model
   @State private var confirmDeletion = false
+  @State private var showSettings = false
 
   var body: some View {
     NavigationStack {
@@ -18,12 +19,13 @@ struct HomeView: View {
       }
       .navigationTitle("Photo Mirror")
       .toolbar {
-        NavigationLink {
-          SettingsView()
+        Button {
+          showSettings = true
         } label: {
           Image(systemName: "gearshape")
         }
       }
+      .navigationDestination(isPresented: $showSettings) { SettingsView() }
       .refreshable { model.refreshCounts() }
       .confirmationDialog(
         "Move \(model.lastReport?.pendingDeletions ?? 0) photos to the Immich trash?",
@@ -35,7 +37,13 @@ struct HomeView: View {
           "These photos are no longer in your iCloud library. They stay in Immich's trash until it is emptied (30 days by default)."
         )
       }
-      .task { model.photoStatus = PhotoLibrary.status }
+      .task {
+        if model.isDemo {
+          showSettings = model.demoScreen == "settings"
+        } else {
+          model.photoStatus = PhotoLibrary.status
+        }
+      }
     }
   }
 

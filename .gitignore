@@ -16,3 +16,6 @@ DerivedData/
 
 .DS_Store
 xcuserdata/
+
+# Collected App Store images (npm run appstore:upload-folder)
+appstore/upload/

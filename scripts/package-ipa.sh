@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Archives a Release build and exports a development-signed IPA (installs on the team's registered devices)
-# to .build/export/ImmichMirror.ipa. Automatic signing; with ASC_KEY_ID, ASC_ISSUER_ID and the key
+# to .build/export/ImmichMirror.ipa, or with UPLOAD=1 signs it for the App Store and uploads it to
+# App Store Connect (`npm run upload`; set BUILD_NUMBER, e.g. from `npm run appstore next-build`). Automatic signing; with ASC_KEY_ID, ASC_ISSUER_ID and the key
 # (ASC_KEY_P8 contents, or ASC_KEY_PATH) set, Xcode signs in with the App Store Connect API key instead
 # of the Apple ID in Xcode's settings. MARKETING_VERSION and BUILD_NUMBER override project.yml.
 #
@@ -60,10 +61,16 @@ overrides=()
 [[ -n "${MARKETING_VERSION:-}" ]] && overrides+=(MARKETING_VERSION="$MARKETING_VERSION")
 [[ -n "${BUILD_NUMBER:-}" ]] && overrides+=(CURRENT_PROJECT_VERSION="$BUILD_NUMBER")
 
-sed "s/__TEAM__/$IOS_DEVELOPMENT_TEAM/" scripts/ExportOptions.plist > .build/ExportOptions.plist
+options=scripts/ExportOptions.plist
+[[ -n "${UPLOAD:-}" ]] && options=scripts/ExportOptions-AppStore.plist
+sed "s/__TEAM__/$IOS_DEVELOPMENT_TEAM/" "$options" > .build/ExportOptions.plist
 xcodebuild archive -project ImmichMirror.xcodeproj -scheme ImmichMirror -configuration Release \
   -destination 'generic/platform=iOS' -archivePath .build/ImmichMirror.xcarchive \
   -derivedDataPath .build/DerivedData "${auth[@]}" -quiet ${overrides[@]+"${overrides[@]}"}
 xcodebuild -exportArchive -archivePath .build/ImmichMirror.xcarchive \
   -exportOptionsPlist .build/ExportOptions.plist -exportPath .build/export "${auth[@]}"
-ls -la .build/export/ImmichMirror.ipa
+if [[ -n "${UPLOAD:-}" ]]; then
+  echo "Uploaded to App Store Connect; it shows up under TestFlight once processed."
+else
+  ls -la .build/export/ImmichMirror.ipa
+fi

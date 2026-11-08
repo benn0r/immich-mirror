@@ -41,7 +41,40 @@ final class AppModel {
   private var task: Task<Void, Never>?
   /// The running BGContinuedProcessingTask (iOS 26+), typed loosely to keep iOS 17 support.
   private var continuedTask: AnyObject?
-  var runsInBackground: Bool { continuedTask != nil }
+  var runsInBackground: Bool { continuedTask != nil || (isDemo && isRunning) }
+
+  /// Screenshot mode (`-demo`, Debug builds only): fictional state, nothing touches photos or a server.
+  private(set) var isDemo = false
+  private(set) var demoScreen: String?
+
+  init() {
+    #if DEBUG
+      if DemoData.isRequested {
+        // The `_` backing storage skips the didSet observers: nothing is saved, scheduled or requested.
+        isDemo = true
+        session = DemoData.session
+        _settings.dryRun = false
+        photoStatus = .authorized
+        mirroredCount = DemoData.mirroredCount
+        lastSync = DemoData.lastSync
+        demoScreen = DemoData.screen
+        switch demoScreen {
+        case "dry-run":
+          _settings.dryRun = true
+          lastReport = DemoData.dryRunReport
+        case "report", "settings":
+          _backgroundSyncEnabled = true
+          _notifyOnFinish = true
+          lastSync = DemoData.lastSync
+          lastReport = DemoData.report
+        default:
+          isRunning = true
+          progress = DemoData.progress
+          lastReport = DemoData.report
+        }
+      }
+    #endif
+  }
 
   var client: ImmichClient? {
     session.map { ImmichClient(baseURL: $0.serverURL, token: $0.accessToken) }
@@ -78,7 +111,7 @@ final class AppModel {
   }
 
   func refreshCounts() {
-    guard let s = session, let store = try? MirrorStore(userId: s.email) else { return }
+    guard !isDemo, let s = session, let store = try? MirrorStore(userId: s.email) else { return }
     mirroredCount = (try? store.assetCount()) ?? 0
     lastSync = try? store.get("lastSync")
   }

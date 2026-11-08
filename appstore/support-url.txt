@@ -1,1 +1,1 @@
-<SUPPORT URL>
+https://photo-mirror-sync.tueftli.com/{lang}/support/

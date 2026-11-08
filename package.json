@@ -16,6 +16,11 @@
     "format:check": "xcrun swift-format lint --recursive --strict ImmichMirror ImmichMirrorTests",
     "format": "xcrun swift-format format --recursive --in-place ImmichMirror ImmichMirrorTests",
     "translations": "python3 scripts/translations.py",
-    "appstore:check": "python3 scripts/appstore_check.py"
+    "appstore:check": "python3 scripts/appstore_check.py",
+    "screenshots": "bash scripts/screenshots.sh && for p in de:de_DE fr:fr_FR it:it_IT es:es_ES nl:nl_NL pt-PT:pt_PT pt-BR:pt_BR sv:sv_SE da:da_DK nb:nb_NO fi:fi_FI ja:ja_JP pl:pl_PL zh-Hans:zh_CN zh-Hant:zh_TW ko:ko_KR uk:uk_UA cs:cs_CZ tr:tr_TR; do LANGUAGE=${p%%:*} LOCALE=${p##*:} bash scripts/screenshots.sh; done",
+    "appstore:marketing": "python3 appstore/marketing/compose.py",
+    "appstore:upload-folder": "rm -rf appstore/upload && for l in en de fr it es nl pt-PT pt-BR sv da nb fi ja pl zh-Hans zh-Hant ko uk cs tr; do if [ $l = en ]; then s=screenshots/appstore; m=appstore/marketing; else s=screenshots/appstore/$l; m=appstore/marketing/$l; fi; mkdir -p appstore/upload/$l && n=1 && for f in home dry-run report settings; do cp $s/$f.png appstore/upload/$l/$n-$f.png; n=$((n+1)); done && cp $m/*-*x*.png appstore/upload/$l/; done && open appstore/upload",
+    "appstore": "if [ -f .env ]; then set -a && . ./.env && set +a; fi && uv run -q --no-project --with pyjwt --with cryptography python3 scripts/appstore.py",
+    "upload": "UPLOAD=1 bash scripts/package-ipa.sh"
   }
 }

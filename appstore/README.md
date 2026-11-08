@@ -11,13 +11,22 @@ the App Store limits.
 | Promotional text (170) | `promotional-text.txt` |
 | Description (4000) | `description.txt` |
 | Keywords (100) | `keywords.txt` |
-| Support URL | `support-url.txt` — **still to do** |
-| Privacy policy URL | `privacy-policy-url.txt` — **still to do (required)** |
+| Support URL | `support-url.txt` (`{lang}` = folder name in lowercase) |
+| Privacy policy URL | `privacy-policy-url.txt` (`{lang}` = folder name in lowercase) |
 | Copyright | `copyright.txt` |
 | App Review notes | `review-notes.txt` — **needs a demo Immich server and account** |
 | Category | Photo & Video, secondary Utilities |
 | Age rating | 4+ |
 | Bundle ID | `ch.benn0r.immichmirror` (registered) |
+| iPhone screenshots (1206×2622): home, dry-run, report, settings | `../screenshots/appstore/` (`npm run screenshots`, fictional `-demo` data) |
+| Header (3840×1646) | `marketing/header-3840x1646.png` |
+| Search results (1920×1280) | `marketing/search-results-1920x1280.png` |
+
+The header and search-results backgrounds in `marketing/source/` were generated with OpenAI gpt-image-2 (bright
+studio, photo prints on a mirror floor; deliberately unlike Off-hours), `source/icon.png` is exported from
+`AppIcon.icon` with Icon Composer's `ictool`. `marketing/compose.py` (`npm run appstore:marketing`, needs Pillow)
+adds the icon, the serif headline and the real app screenshot for every language. `npm run appstore:upload-folder`
+collects everything per language in `upload/` (ignored by git) for drag and drop into App Store Connect.
 
 English lives at the top level, every other language in `appstore/<lang>/` with the same four text files:
 de, fr, it, es, nl, pt-PT, pt-BR, sv, da, nb, fi, ja, pl, zh-Hans, zh-Hant, ko, uk, cs, tr
@@ -39,7 +48,7 @@ operates is not collected by the developer).
 
 ## Before submission
 
-1. Support and privacy policy pages (e.g. a small site like off-hours.tueftli.com), URLs into the two files.
+1. Support and privacy policy pages live on photo-mirror-sync.tueftli.com (landing repo) in all 20 languages.
 2. A reachable demo Immich server with a demo account for App Review, filled into `review-notes.txt`
    (do not commit real passwords — enter them in App Store Connect only).
 3. Screenshots (iPhone 6.9"/6.3", 1206×2622) per language.
