@@ -1,6 +1,9 @@
 name: Native iOS CI
+# Tests every branch push and pull request. Tags are left to release.yml, which builds the
+# installable IPA (the CI build is unsigned).
 on:
   push:
+    branches: ["**"]
   pull_request:
 
 concurrency:
@@ -30,19 +33,3 @@ jobs:
       - uses: actions/checkout@v4
       - run: command -v xcodegen || brew install xcodegen
       - run: npm run test:unit
-
-  publish:
-    needs: test
-    if: ${{ gitea.event_name == 'push' && gitea.ref == 'refs/heads/main' }}
-    runs-on: macos
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: ios-release-build
-          path: ImmichMirror.app
-      - uses: actions/upload-artifact@v4
-        with:
-          name: immich-mirror-ios-${{ gitea.sha }}
-          path: ImmichMirror.app
-          if-no-files-found: error
-          retention-days: 30

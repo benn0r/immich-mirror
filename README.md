@@ -92,7 +92,7 @@ were verified against a real Immich 3.3.6 server and library.
 ## CI and releases
 
 `.gitea/workflows/ci.yml` runs on every push and pull request on the self-hosted macOS runner: format check,
-lint, unsigned Release build, unit tests; on `main` the build is kept as an artifact for 30 days.
+lint, unsigned Release build, unit tests. Tags don't run CI; they go to the release workflow.
 
 `.gitea/workflows/release.yml` runs on tags `v*` (or by hand with a version): unit tests, archive, export of a
 development-signed IPA and a Gitea release with the IPA and its SHA-256. The tag sets the version, the run
