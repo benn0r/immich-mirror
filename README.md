@@ -99,7 +99,8 @@ development-signed IPA and a Gitea release with the IPA and its SHA-256. The tag
 number the build number. It needs the team's Apple Development certificate in the runner's keychain.
 
 Signing secrets are kept in a **1Password Environment** with the variables `IOS_DEVELOPMENT_TEAM`,
-`ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_P8` (contents of the App Store Connect `.p8` key). A 1Password
+`ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_P8` (contents of the App Store Connect `.p8` key; pasted as-is or as
+base64 — mangled line breaks are repaired, and an invalid key fails early). A 1Password
 service account with read access to only that Environment provides them in CI; Gitea holds just the
 secret `OP_SERVICE_ACCOUNT_TOKEN` and the variable `OP_ENVIRONMENT_ID`. Locally, the same Environment is read
 through the 1Password app.

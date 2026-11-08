@@ -27,7 +27,17 @@ if [[ -n "${ASC_KEY_P8:-}" && -z "${ASC_KEY_PATH:-}" ]]; then
   key_dir="$(mktemp -d -t asc-key)"
   trap 'rm -rf "$key_dir"' EXIT
   ASC_KEY_PATH="$key_dir/AuthKey.p8"
-  (umask 077 && printf '%s\n' "$ASC_KEY_P8" > "$ASC_KEY_PATH")
+  # Secret fields often mangle line breaks (pasted as spaces, literal \n, CRLF), so the key is rebuilt as
+  # clean PEM from its base64 body. Also accepts base64 of the whole .p8 file.
+  key="$ASC_KEY_P8"
+  if [[ "$key" != *"BEGIN PRIVATE KEY"* ]]; then
+    key="$(printf '%s' "$key" | tr -d ' \t\r\n' | base64 -D)"
+  fi
+  body="$(printf '%s' "$key" | sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' \
+    -e 's/\\n//g' | tr -d ' \t\r\n')"
+  (umask 077 && { echo "-----BEGIN PRIVATE KEY-----"; printf '%s' "$body" | fold -w 64; echo; \
+    echo "-----END PRIVATE KEY-----"; } > "$ASC_KEY_PATH")
+  openssl pkey -in "$ASC_KEY_PATH" -noout 2>/dev/null || { echo "ASC_KEY_P8 is not a valid .p8 key" >&2; exit 1; }
 fi
 
 auth=(-allowProvisioningUpdates)
