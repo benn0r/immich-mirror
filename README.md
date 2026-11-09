@@ -41,19 +41,25 @@ the original internal name `ImmichMirror` / `immich-mirror`.
 One sync pass:
 
 1. Scan the photo library (PhotoKit) and compare it with the local mapping (SQLite: iCloud id → Immich id).
-2. Photos gone from iCloud → **Immich trash** (`force: false`).
-3. Favorite-only changes → update the flag.
-4. Edited photos → upload the new version, trash the old one.
-5. New photos → download the original from iCloud if needed (4 at a time, stalled downloads skipped after
-   1 minute), hash, `bulk-upload-check`, then adopt or upload with metadata `immich-mirror: {localId, cloudId}`.
-6. Albums → create / rename / add / remove / delete to match iCloud. Each managed album carries the description
-   `immich-mirror:<id>`, so the mapping can be rebuilt.
+2. If there are new photos: read the server's records once through the sync stream (all own assets plus this
+   app's metadata) and link new photos that are already on the server by their iCloud id, without downloading
+   them. This rebuilds the mapping after a reinstall or on a new iPhone, and lets several devices share one
+   library. Photos edited since their upload are re-checked, copies in the trash are restored, and this app's
+   server copies whose iCloud photo is gone are trashed like any deletion (skipped when iCloud ids can't be read).
+3. Photos gone from iCloud → **Immich trash** (`force: false`).
+4. Favorite-only changes → update the flag.
+5. Edited photos → upload the new version, trash the old one.
+6. New photos → download the original from iCloud if needed (4 at a time, stalled downloads skipped after
+   1 minute), hash, `bulk-upload-check`, then adopt or upload with metadata
+   `immich-mirror: {localId, cloudId, modifiedAt}`.
+7. Albums → create / rename / add / remove / delete to match iCloud. Each managed album carries the description
+   `immich-mirror:<local id> cloud:<iCloud id>`, so it is found again from another device or after a reinstall.
 
 ### Safety
 
-- Only server assets and albums in the local mapping are ever changed. Everything else on the server
-  (other uploads, external libraries, your own albums) is left alone, and external-library assets are never
-  adopted.
+- Only server assets and albums in the local mapping, or carrying this app's metadata or album marker, are
+  ever changed. Everything else on the server (other uploads, external libraries, your own albums) is left
+  alone, and external-library assets are never adopted.
 - Deletes always go to Immich's trash; the app never empties it.
 - More than 5 % of the library (minimum 25) deleted in one run needs your confirmation; background runs never
   confirm. An empty library or limited photo access never deletes anything.

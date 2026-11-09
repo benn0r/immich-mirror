@@ -125,8 +125,13 @@ actor SyncEngine {
     report.localCount = local.count
     report.mirroredBefore = stored.count
 
-    let plan = SyncPlanner.planAssets(local: local, stored: stored, guard: settings.deletionGuard)
+    var plan = SyncPlanner.planAssets(local: local, stored: stored, guard: settings.deletionGuard)
     report.newFound = plan.new.count
+    // New photos may already be on the server: after a reinstall, on a new iPhone, or uploaded by
+    // another device. Link them from the server's records instead of downloading every original.
+    if !plan.new.isEmpty {
+      try await recover(&plan, local: local, stored: &stored, report: &report)
+    }
     report.changedFound = plan.changed.count
     onLog(
       "Library: \(local.count) photos, mirrored: \(stored.count), new: \(plan.new.count), changed: \(plan.changed.count), removed: \(plan.removed.count)\(dry ? " [dry run]" : "")"
@@ -192,6 +197,69 @@ actor SyncEngine {
     onProgress(
       .init(phase: r.cancelled ? String(localized: "Cancelled") : String(localized: "Done")))
     return r
+  }
+
+  // MARK: - Rebuild from the server
+
+  private func recover(
+    _ plan: inout AssetPlan, local: [LocalAsset], stored: inout [String: MirrorRecord],
+    report: inout SyncReport
+  ) async throws {
+    onProgress(.init(phase: String(localized: "Checking the server")))
+    let index = try await client.serverIndex()
+    guard !index.mirror.isEmpty else { return }  // nothing this app uploaded yet
+    let cloudIds = PhotoLibrary.cloudIds(for: local.map(\.localId))
+    let mapped = Set(
+      stored.values.flatMap { [$0.immichId] + ($0.liveVideoImmichId.map { [$0] } ?? []) })
+    let newSet = Set(plan.new)
+    let rp = SyncPlanner.planRecovery(
+      new: local.filter { newSet.contains($0.localId) }, local: local, cloudIds: cloudIds,
+      index: index, mapped: mapped)
+    let restore = rp.adopt.flatMap(\.restore)
+    let edited = rp.adopt.filter(\.edited).map(\.record.localId)
+    onLog(
+      "Server records: \(index.mirror.count) mirrored photos; re-linked \(rp.adopt.count) (\(edited.count) edited since, \(restore.count) in trash), leftovers \(rp.orphans.count)\(rp.orphansSkipped ? " (check skipped: iCloud ids unavailable)" : "")\(dry ? " [dry run]" : "")"
+    )
+
+    if !dry {
+      try await client.restoreFromTrash(ids: restore)
+      for a in rp.adopt {
+        stored[a.record.localId] = a.record
+        try store.upsert(a.record)
+      }
+      // The server records now name this device's local id (and the date for edit detection).
+      try await client.upsertMetadata(
+        rp.adopt.map {
+          .init(
+            assetId: $0.record.immichId, key: ImmichClient.metadataKey,
+            value: .init(
+              localId: $0.record.localId, cloudId: $0.record.cloudId,
+              modifiedAt: $0.record.modifiedAt))
+        })
+      report.adopted += rp.adopt.count
+      report.restored += rp.adopt.filter { !$0.restore.isEmpty }.count
+    }
+    let adopted = Set(rp.adopt.map(\.record.localId))
+    plan.new.removeAll { adopted.contains($0) }
+    plan.changed += edited
+    let favorites = Dictionary(
+      local.map { ($0.localId, $0.isFavorite) }, uniquingKeysWith: { a, _ in a })
+    plan.favoriteOnly += rp.adopt.filter {
+      !$0.edited && favorites[$0.record.localId] != $0.record.isFavorite
+    }
+    .map(\.record.localId)
+
+    // Leftovers go through the normal deletion step, with the same safety limit.
+    if !rp.orphans.isEmpty {
+      plan.removed += rp.orphans.map {
+        MirrorRecord(
+          localId: "server:\($0.immichId)", cloudId: nil, immichId: $0.immichId,
+          liveVideoImmichId: $0.liveVideoImmichId, checksum: "", modifiedAt: 0, isFavorite: false)
+      }
+      (plan.deletionBlockedReason, plan.deletionBlockedHard) = SyncPlanner.deletionBlock(
+        removing: plan.removed.count, mirrored: max(stored.count, index.mirror.count),
+        localIsEmpty: local.isEmpty, guard: settings.deletionGuard)
+    }
   }
 
   // MARK: - Deletions
@@ -295,6 +363,11 @@ actor SyncEngine {
           }
           rec.modifiedAt = exp.modifiedAt.timeIntervalSince1970
           rec.isFavorite = exp.isFavorite
+          try await client.upsertMetadata([
+            .init(
+              assetId: rec.immichId, key: ImmichClient.metadataKey,
+              value: .init(localId: localId, cloudId: rec.cloudId, modifiedAt: rec.modifiedAt))
+          ])
         } else {
           let cloudId = PhotoLibrary.cloudIds(for: [localId])[localId] ?? rec.cloudId
           let (newId, videoId, _) = try await place(exp, cloudId: cloudId)
@@ -387,7 +460,9 @@ actor SyncEngine {
             metadata.append(
               .init(
                 assetId: existing, key: ImmichClient.metadataKey,
-                value: .init(localId: e.localId, cloudId: cloudId)))
+                value: .init(
+                  localId: e.localId, cloudId: cloudId,
+                  modifiedAt: e.modifiedAt.timeIntervalSince1970)))
             report.adopted += 1
             if report.placed.count < 500 {
               report.placed.append(
@@ -513,7 +588,8 @@ actor SyncEngine {
   private func place(_ e: ExportedAsset, cloudId: String?) async throws -> (
     id: String, videoId: String?, created: Bool
   ) {
-    let meta = MirrorMetadata(localId: e.localId, cloudId: cloudId)
+    let meta = MirrorMetadata(
+      localId: e.localId, cloudId: cloudId, modifiedAt: e.modifiedAt.timeIntervalSince1970)
     let progress = onProgress
     func uploading(_ name: String) -> @Sendable (Double) -> Void {
       { f in
@@ -577,13 +653,32 @@ actor SyncEngine {
     let local = PhotoLibrary.albums()
     var stored = try store.allAlbums()
 
-    // Recover lost mappings via the description marker on server albums.
+    // Recover lost mappings via the description marker on server albums: by local id, or by iCloud
+    // id when the album was mirrored from another device or before a reinstall.
     let server = try await client.albums()
     let serverIds = Set(server.map(\.id))
+    let cloudIds = PhotoLibrary.cloudIds(for: local.map(\.localId))
+    let claimed = Set(stored.values.map(\.immichId))
     for a in local where stored[a.localId] == nil {
-      if let s = server.first(where: { $0.description == SyncPlanner.albumMarker(a.localId) }) {
+      if let s = server.first(where: {
+        !claimed.contains($0.id)
+          && SyncPlanner.albumMatches(
+            description: $0.description, localId: a.localId, cloudId: cloudIds[a.localId])
+      }) {
         stored[a.localId] = AlbumRecord(localId: a.localId, immichId: s.id, name: s.albumName)
         if !dry { try store.upsert(stored[a.localId]!) }
+      }
+    }
+    // Bring markers up to date (this device's local id, plus the iCloud id once it is known).
+    if !dry {
+      let descriptions = Dictionary(
+        server.map { ($0.id, $0.description) }, uniquingKeysWith: { a, _ in a })
+      for a in local {
+        guard let rec = stored[a.localId], let current = descriptions[rec.immichId] else {
+          continue
+        }
+        let marker = SyncPlanner.albumMarker(a.localId, cloudId: cloudIds[a.localId])
+        if current != marker { try await client.setAlbumDescription(id: rec.immichId, marker) }
       }
     }
     // Mapped album deleted on the server by hand → recreate it.
@@ -609,7 +704,7 @@ actor SyncEngine {
       if Task.isCancelled { return }
       let members = Array(SyncPlanner.desiredMembers(a, mapping: mapping))
       let created = try await client.createAlbum(
-        name: a.name, description: SyncPlanner.albumMarker(a.localId),
+        name: a.name, description: SyncPlanner.albumMarker(a.localId, cloudId: cloudIds[a.localId]),
         assetIds: Array(members.prefix(500)))
       if members.count > 500 {
         try await client.addToAlbum(id: created.id, assetIds: Array(members.dropFirst(500)))

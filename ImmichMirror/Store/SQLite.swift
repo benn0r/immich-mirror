@@ -22,6 +22,9 @@ final class SQLite {
     else {
       throw err("open")
     }
+    // The app and a sync can open the store at the same time: wait for the other connection's lock
+    // instead of failing at once with "database is locked".
+    sqlite3_busy_timeout(db, 5000)
     try exec("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;")
   }
 

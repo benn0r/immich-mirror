@@ -23,6 +23,11 @@ final class AppModel {
     }
   }
 
+  /// The activity log on the home screen is technical, so it is off unless turned on in Settings.
+  var showLog = UserDefaults.standard.bool(forKey: "showLog") {
+    didSet { UserDefaults.standard.set(showLog, forKey: "showLog") }
+  }
+
   var photoStatus: PHAuthorizationStatus = PhotoLibrary.status
   var isRunning = false
   var progress: SyncProgress?
@@ -34,7 +39,7 @@ final class AppModel {
 
   struct LogLine: Identifiable {
     let id = UUID()
-    let date = Date()
+    var date = Date()
     let text: String
   }
 
@@ -48,10 +53,13 @@ final class AppModel {
   private(set) var demoScreen: String?
 
   init() {
+    // Earlier runs, newest first: the log file survives restarts and background runs.
+    log = SyncLog.recent(limit: 300).reversed().map { LogLine(date: $0.date, text: $0.text) }
     #if DEBUG
       if DemoData.isRequested {
         // The `_` backing storage skips the didSet observers: nothing is saved, scheduled or requested.
         isDemo = true
+        log = []
         session = DemoData.session
         _settings.dryRun = false
         photoStatus = .authorized

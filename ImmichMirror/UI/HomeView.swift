@@ -15,7 +15,7 @@ struct HomeView: View {
         if let r = model.lastReport {
           ReportSection(report: r, onConfirmDeletion: { confirmDeletion = true })
         }
-        logSection
+        if model.showLog { logSection }
       }
       .navigationTitle("Photo Mirror")
       .toolbar {
@@ -135,15 +135,32 @@ struct HomeView: View {
   }
 
   private var logSection: some View {
-    Section("Log") {
+    Section {
       if model.log.isEmpty { Text("No activity yet").foregroundStyle(.secondary) }
-      ForEach(model.log.prefix(50)) { line in
+      ForEach(model.log.prefix(100)) { line in
         VStack(alignment: .leading, spacing: 2) {
           Text(line.text).font(.footnote)
-          Text(line.date, style: .time).font(.caption2).foregroundStyle(.secondary)
+          Text(Self.logTime(line.date)).font(.caption2).foregroundStyle(.secondary)
+        }
+      }
+    } header: {
+      HStack {
+        Text("Log")
+        Spacer()
+        if !model.log.isEmpty {
+          ShareLink(item: SyncLog.url) {
+            Label("Share Log", systemImage: "square.and.arrow.up").labelStyle(.iconOnly)
+          }
         }
       }
     }
+  }
+
+  /// Time only for today's entries, date and time for older ones (the log survives restarts).
+  static func logTime(_ date: Date) -> String {
+    Calendar.current.isDateInToday(date)
+      ? date.formatted(date: .omitted, time: .shortened)
+      : date.formatted(date: .abbreviated, time: .shortened)
   }
 
   static func formatDate(_ iso: String) -> String? {

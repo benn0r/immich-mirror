@@ -193,6 +193,34 @@ final class ImmichClient: @unchecked Sendable {
     try check(data, resp)
   }
 
+  /// All of the user's assets and this app's metadata, from the sync stream (the protocol Immich's own
+  /// app uses). Nothing is acknowledged, so every call replays the full current state and no other
+  /// session's sync position changes. Needs a session token (API keys can't use the stream).
+  func serverIndex() async throws -> ServerIndex {
+    var r = try request(
+      "POST", "/sync/stream", json: SyncStreamRequest(types: ["AssetsV2", "AssetMetadataV1"]))
+    r.setValue("application/jsonlines+json", forHTTPHeaderField: "Accept")
+    r.timeoutInterval = 300
+    let (bytes, resp) = try await session.bytes(for: r)
+    guard let http = resp as? HTTPURLResponse else { throw ImmichError.http(-1, "no response") }
+    if http.statusCode == 401 { throw ImmichError.unauthorized }
+    guard (200..<300).contains(http.statusCode) else {
+      var body = Data()
+      for try await b in bytes {
+        body.append(b)
+        if body.count > 2000 { break }
+      }
+      throw ImmichError.http(http.statusCode, String(decoding: body, as: UTF8.self))
+    }
+    var index = ServerIndex()
+    for try await line in bytes.lines {
+      do { try index.apply(line: Data(line.utf8)) } catch {
+        throw ImmichError.decoding("sync stream: \(error)")
+      }
+    }
+    return index
+  }
+
   /// Single page, for diagnostics.
   func searchFirst(_ filter: SearchRequest.Filter, size: Int = 5) async throws -> [SearchAsset] {
     try await send(
@@ -234,6 +262,12 @@ final class ImmichClient: @unchecked Sendable {
   func renameAlbum(id: String, name: String) async throws {
     _ = try await send(
       "PATCH", "/albums/\(id)", json: UpdateAlbumRequest(albumName: name), as: AlbumDTO.self)
+  }
+
+  func setAlbumDescription(id: String, _ description: String) async throws {
+    _ = try await send(
+      "PATCH", "/albums/\(id)", json: UpdateAlbumRequest(description: description),
+      as: AlbumDTO.self)
   }
 
   func addToAlbum(id: String, assetIds: [String]) async throws {

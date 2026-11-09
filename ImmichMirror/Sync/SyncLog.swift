@@ -39,6 +39,28 @@ enum SyncLog {
     }
   }
 
+  /// The newest entries, oldest first, for the in-app log. Per-minute progress heartbeats are left out.
+  static func recent(limit: Int) -> [(date: Date, text: String)] {
+    queue.sync {
+      guard let h = try? FileHandle(forReadingFrom: url) else { return [] }
+      defer { try? h.close() }
+      let end = (try? h.seekToEnd()) ?? 0
+      let tail: UInt64 = 256 * 1024
+      try? h.seek(toOffset: end > tail ? end - tail : 0)
+      let text = String(decoding: (try? h.readToEnd()) ?? Data(), as: UTF8.self)
+      var lines = text.split(separator: "\n", omittingEmptySubsequences: true)
+      if end > tail { lines = Array(lines.dropFirst()) }  // first line may be cut off
+      let entries: [(date: Date, text: String)] = lines.compactMap { line in
+        guard let space = line.firstIndex(of: " "),
+          let date = formatter.date(from: String(line[..<space]))
+        else { return nil }
+        let message = String(line[line.index(after: space)...])
+        return message.hasPrefix("… ") ? nil : (date, message)
+      }
+      return Array(entries.suffix(limit))
+    }
+  }
+
   /// Device conditions that make iOS stop background work.
   @MainActor static func conditions() -> String {
     let device = UIDevice.current

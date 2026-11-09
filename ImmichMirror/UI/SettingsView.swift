@@ -63,6 +63,14 @@ struct SettingsView: View {
       }
 
       Section {
+        Toggle("Show log", isOn: $model.showLog)
+      } footer: {
+        Text(
+          "Technical details of every sync on the home screen, for troubleshooting. The share button there sends the full log file."
+        )
+      }
+
+      Section {
         Button("Reset Local Mapping…", role: .destructive) { confirmReset = true }
         Button("Sign Out", role: .destructive) { confirmSignOut = true }
       } footer: {
