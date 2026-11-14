@@ -1,0 +1,5 @@
+• Recuperación más rápida: tras reinstalar la app o en un iPhone nuevo, las fotos que ya están en tu servidor se vuelven a vincular en minutos, sin descargarlas y compararlas una a una.
+• Las fotos eliminadas de iCloud mientras la app no estaba ahora también van a la papelera del servidor.
+• Los álbumes se reconocen en cualquier dispositivo y ya no se crean dos veces.
+• El registro ahora es opcional (Ajustes > Mostrar registro) y conserva su historial entre aperturas.
+• Mejoras de fiabilidad.

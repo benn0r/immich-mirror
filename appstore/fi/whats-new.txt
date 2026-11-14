@@ -1,0 +1,5 @@
+• Nopeampi palautus: uudelleenasennuksen jälkeen tai uudessa iPhonessa palvelimellasi jo olevat kuvat yhdistetään uudelleen minuuteissa sen sijaan, että ne ladattaisiin ja verrattaisiin yksi kerrallaan.
+• Kuvat, jotka poistettiin iCloudista apin puuttuessa, siirtyvät nyt myös palvelimen roskakoriin.
+• Albumit tunnistetaan kaikilla laitteilla, eikä niitä enää luoda kahteen kertaan.
+• Loki on nyt valinnainen (Asetukset > Näytä loki) ja säilyttää historiansa käynnistysten välillä.
+• Parannettu luotettavuus.

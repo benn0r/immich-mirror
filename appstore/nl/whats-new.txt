@@ -1,0 +1,5 @@
+• Sneller herstel: na een herinstallatie of op een nieuwe iPhone worden foto's die al op je server staan binnen minuten weer gekoppeld, in plaats van ze één voor één te downloaden en te vergelijken.
+• Foto's die uit iCloud zijn verwijderd terwijl de app ontbrak, gaan nu ook naar de prullenbak van de server.
+• Albums worden op elk apparaat herkend en niet meer dubbel aangemaakt.
+• Het logboek is nu optioneel (Instellingen > Logboek tonen) en blijft bewaard tussen het opstarten.
+• Verbeterde betrouwbaarheid.

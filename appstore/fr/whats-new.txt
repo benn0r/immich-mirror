@@ -1,0 +1,5 @@
+• Récupération plus rapide : après une réinstallation ou sur un nouvel iPhone, les photos déjà présentes sur votre serveur sont reliées en quelques minutes, sans être téléchargées et comparées une à une.
+• Les photos supprimées d'iCloud pendant l'absence de l'app vont désormais aussi dans la corbeille du serveur.
+• Les albums sont reconnus sur tous les appareils et ne sont plus créés en double.
+• Le journal est désormais facultatif (Réglages > Afficher le journal) et conserve son historique entre les lancements.
+• Fiabilité améliorée.

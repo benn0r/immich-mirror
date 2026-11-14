@@ -1,0 +1,5 @@
+• Szybsze odzyskiwanie: po ponownej instalacji lub na nowym iPhonie zdjęcia, które są już na Twoim serwerze, są ponownie łączone w kilka minut, bez pobierania i porównywania ich po kolei.
+• Zdjęcia usunięte z iCloud, gdy aplikacji nie było, trafiają teraz również do kosza na serwerze.
+• Albumy są rozpoznawane na każdym urządzeniu i nie są już tworzone podwójnie.
+• Dziennik jest teraz opcjonalny (Ustawienia > Pokaż dziennik) i zachowuje historię między uruchomieniami.
+• Poprawiona niezawodność.

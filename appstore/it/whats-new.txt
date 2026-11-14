@@ -1,0 +1,5 @@
+• Ripristino più rapido: dopo una reinstallazione o su un nuovo iPhone, le foto già presenti sul tuo server vengono ricollegate in pochi minuti, senza scaricarle e confrontarle una per una.
+• Le foto eliminate da iCloud mentre l'app non c'era ora finiscono anche nel cestino del server.
+• Gli album vengono riconosciuti su ogni dispositivo e non vengono più creati due volte.
+• Il registro ora è facoltativo (Impostazioni > Mostra registro) e conserva la cronologia tra un avvio e l'altro.
+• Affidabilità migliorata.

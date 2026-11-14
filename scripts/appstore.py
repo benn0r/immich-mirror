@@ -113,6 +113,14 @@ def editable_version() -> dict:
     raise SystemExit("No editable App Store version (it may be in review or released).")
 
 
+def editable_app_info() -> str:
+    """The app info that can still change: the one of the version being prepared, not the live one."""
+    infos = call("GET", f"/apps/{APP_ID}/appInfos")["data"]
+    live = {"READY_FOR_DISTRIBUTION", "READY_FOR_SALE"}
+    editable = [i for i in infos if i["attributes"].get("state") not in live]
+    return (editable or infos)[0]["id"]
+
+
 def localizations(version_id: str) -> dict[str, str]:
     data = call("GET", f"/appStoreVersions/{version_id}/appStoreVersionLocalizations?limit=50")["data"]
     return {item["attributes"]["locale"]: item["id"] for item in data}
@@ -302,7 +310,7 @@ def assets(folders: list[str], replace: bool) -> None:
 
 def listing(folders: list[str]) -> None:
     """Creates or updates the localized listing from appstore/<folder>/*.txt."""
-    app_info = call("GET", f"/apps/{APP_ID}/appInfos")["data"][0]["id"]
+    app_info = editable_app_info()
     info_locs = {
         item["attributes"]["locale"]: item["id"]
         for item in call("GET", f"/appInfos/{app_info}/appInfoLocalizations?limit=50")["data"]
@@ -338,6 +346,9 @@ def listing(folders: list[str]) -> None:
             "keywords": read("keywords"),
             "promotionalText": read("promotional-text"),
         }
+        # Release notes: required for every version after the first, rejected on the first one.
+        if (source / "whats-new.txt").exists() and version["attributes"]["versionString"] != "1.0.0":
+            attributes["whatsNew"] = read("whats-new")
         if support := configured("support-url"):
             attributes["supportUrl"] = support.format(lang=folder.lower())
         # Creating the app info localization usually creates the version localization too.
@@ -394,7 +405,7 @@ AGE_RATING_NO = [
 
 
 def details() -> None:
-    app_info = call("GET", f"/apps/{APP_ID}/appInfos")["data"][0]["id"]
+    app_info = editable_app_info()
     call(
         "PATCH",
         f"/appInfos/{app_info}",

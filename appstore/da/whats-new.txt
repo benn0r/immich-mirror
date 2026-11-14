@@ -1,0 +1,5 @@
+• Hurtigere gendannelse: efter en geninstallation eller på en ny iPhone bliver billeder, der allerede er på din server, koblet sammen igen på få minutter i stedet for at blive hentet og sammenlignet ét ad gangen.
+• Billeder, der blev slettet fra iCloud, mens appen manglede, flyttes nu også til serverens papirkurv.
+• Albummer genkendes på alle enheder og oprettes ikke længere to gange.
+• Loggen er nu valgfri (Indstillinger > Vis log) og gemmer sin historik mellem opstarterne.
+• Forbedret pålidelighed.

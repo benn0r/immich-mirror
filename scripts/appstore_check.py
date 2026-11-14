@@ -1,6 +1,6 @@
 """Checks the App Store listing texts in appstore/ (English) and appstore/<lang>/ against App Store limits.
 
-Limits: subtitle 30, keywords 100, promotional text 170, description 4000 characters. Keywords are
+Limits: subtitle 30, keywords 100, promotional text 170, description and what's new 4000 characters. Keywords are
 comma-separated without spaces after commas, must not repeat words of the app name and must not contain
 other brands (no "Immich" in subtitle or keywords; the description may name it for compatibility).
 """
@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent / "appstore"
 LANGS = ["en", "de", "fr", "it", "es", "nl", "pt-PT", "pt-BR", "sv", "da", "nb", "fi", "ja", "pl",
          "zh-Hans", "zh-Hant", "ko", "uk", "cs", "tr"]  # fmt: skip
-LIMITS = {"subtitle": 30, "keywords": 100, "promotional-text": 170, "description": 4000}
+LIMITS = {"subtitle": 30, "keywords": 100, "promotional-text": 170, "description": 4000, "whats-new": 4000}
 NAME_WORDS = {"photo", "mirror", "sync"}
 
 
@@ -41,7 +41,7 @@ def main() -> None:
                 if repeated := words & NAME_WORDS:
                     errors.append(f"{lang}: keywords repeat app name words {sorted(repeated)}")
         rows.append(f"{lang:<8} " + "  ".join(sizes))
-    print("lang     subtitle  keywords  promo     description")
+    print("lang     subtitle  keywords  promo     description  whats-new")
     print("\n".join(rows))
     if errors:
         sys.exit("\n".join(errors))

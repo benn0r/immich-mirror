@@ -1,0 +1,5 @@
+• Snabbare återställning: efter en ominstallation eller på en ny iPhone länkas bilder som redan finns på din server igen på några minuter, i stället för att laddas ned och jämföras en i taget.
+• Bilder som raderats från iCloud medan appen saknades flyttas nu också till serverns papperskorg.
+• Album känns igen på alla enheter och skapas inte längre dubbelt.
+• Loggen är nu valfri (Inställningar > Visa logg) och sparar sin historik mellan starterna.
+• Förbättrad tillförlitlighet.

@@ -1,0 +1,5 @@
+• Faster recovery: after reinstalling the app or on a new iPhone, photos already on your server are linked again in minutes instead of being downloaded and compared one by one.
+• Photos deleted from iCloud while the app was missing are now moved to the server trash too.
+• Albums are recognized again on any device, so they are no longer created twice.
+• The activity log is now optional (Settings > Show log) and keeps its history between launches.
+• Reliability improvements.

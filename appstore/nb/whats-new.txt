@@ -1,0 +1,5 @@
+• Raskere gjenoppretting: etter en ny installasjon eller på en ny iPhone blir bilder som allerede ligger på serveren din, koblet sammen igjen på få minutter i stedet for å bli lastet ned og sammenlignet ett om gangen.
+• Bilder som ble slettet fra iCloud mens appen manglet, flyttes nå også til serverens papirkurv.
+• Album gjenkjennes på alle enheter og opprettes ikke lenger to ganger.
+• Loggen er nå valgfri (Innstillinger > Vis logg) og tar vare på historikken mellom oppstarter.
+• Bedre pålitelighet.

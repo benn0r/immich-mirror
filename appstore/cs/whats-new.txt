@@ -1,0 +1,5 @@
+• Rychlejší obnova: po přeinstalaci nebo na novém iPhonu se fotky, které už jsou na vašem serveru, znovu propojí během několika minut, místo aby se stahovaly a porovnávaly jedna po druhé.
+• Fotky smazané z iCloudu v době, kdy aplikace chyběla, se nyní také přesunou do koše na serveru.
+• Alba se rozpoznají na každém zařízení a už se nevytvářejí dvakrát.
+• Protokol je nyní volitelný (Nastavení > Zobrazit protokol) a uchovává historii mezi spuštěními.
+• Vyšší spolehlivost.

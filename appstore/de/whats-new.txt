@@ -1,0 +1,5 @@
+• Schnellere Wiederherstellung: Nach einer Neuinstallation oder auf einem neuen iPhone werden Fotos, die schon auf deinem Server sind, in Minuten wieder verknüpft, statt einzeln heruntergeladen und verglichen zu werden.
+• Fotos, die in iCloud gelöscht wurden, während die App fehlte, landen jetzt ebenfalls im Papierkorb des Servers.
+• Alben werden auf jedem Gerät wiedererkannt und nicht mehr doppelt angelegt.
+• Das Protokoll ist jetzt optional (Einstellungen > Protokoll anzeigen) und bleibt zwischen den Starts erhalten.
+• Verbesserte Zuverlässigkeit.

@@ -1,0 +1,5 @@
+• Daha hızlı kurtarma: Uygulamayı yeniden yükledikten sonra veya yeni bir iPhone'da, sunucunda zaten olan fotoğraflar tek tek indirilip karşılaştırılmadan birkaç dakikada yeniden bağlanır.
+• Uygulama yokken iCloud'dan silinen fotoğraflar artık sunucunun çöp kutusuna da taşınır.
+• Albümler her aygıtta tanınır ve artık iki kez oluşturulmaz.
+• Günlük artık isteğe bağlıdır (Ayarlar > Günlüğü göster) ve açılışlar arasında geçmişini korur.
+• Güvenilirlik iyileştirmeleri.
