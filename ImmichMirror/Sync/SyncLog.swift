@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import UIKit
 
 /// Persistent sync log (Application Support/sync.log, rotated at 2 MB) so a run that ends while the
@@ -23,20 +24,51 @@ enum SyncLog {
 
   static func write(_ message: String) {
     let line = "\(formatter.string(from: Date())) \(message)\n"
-    queue.async {
-      let url = self.url
-      let fm = FileManager.default
-      if let size = (try? fm.attributesOfItem(atPath: url.path)[.size]) as? Int, size > maxBytes {
-        let old = url.deletingLastPathComponent().appendingPathComponent("sync.1.log")
-        try? fm.removeItem(at: old)
-        try? fm.moveItem(at: url, to: old)
-      }
-      if !fm.fileExists(atPath: url.path) { fm.createFile(atPath: url.path, contents: nil) }
-      guard let h = try? FileHandle(forWritingTo: url) else { return }
-      defer { try? h.close() }
-      _ = try? h.seekToEnd()
-      try? h.write(contentsOf: Data(line.utf8))
+    queue.async { append(line) }
+  }
+
+  private static let logger = Logger(subsystem: "ch.benn0r.immichmirror", category: "synclog")
+  /// The last failure writing the file (shown once per kind in the console, never silently lost).
+  private static var lastFailure: String?
+
+  /// Appends with plain POSIX calls: O_APPEND writes are atomic and need no seek, and every failure
+  /// is reported with its errno instead of disappearing in a `try?`.
+  private static func append(_ line: String) {
+    let url = self.url
+    let fm = FileManager.default
+    if let size = (try? fm.attributesOfItem(atPath: url.path)[.size]) as? Int, size > maxBytes {
+      let old = url.deletingLastPathComponent().appendingPathComponent("sync.1.log")
+      try? fm.removeItem(at: old)
+      try? fm.moveItem(at: url, to: old)
     }
+    let fd = open(url.path, O_WRONLY | O_APPEND | O_CREAT, 0o644)
+    guard fd >= 0 else { return fail("open", errno, line) }
+    defer { close(fd) }
+    let bytes = Array(line.utf8)
+    let written = bytes.withUnsafeBytes { Darwin.write(fd, $0.baseAddress, $0.count) }
+    if written != bytes.count { return fail("write", errno, line) }
+    if lastFailure != nil {
+      lastFailure = nil
+      logger.notice("sync.log writable again")
+    }
+    // Writable by background runs while the phone is locked (set once per launch).
+    if !protectionSet {
+      protectionSet = true
+      try? fm.setAttributes(
+        [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication],
+        ofItemAtPath: url.path)
+    }
+  }
+  private static var protectionSet = false
+
+  private static func fail(_ call: String, _ code: Int32, _ line: String) {
+    let reason = "\(call) failed: \(String(cString: strerror(code))) (errno \(code))"
+    if reason != lastFailure {
+      lastFailure = reason
+      logger.error("sync.log \(reason, privacy: .public)")
+      FileHandle.standardError.write(Data("sync.log \(reason)\n".utf8))
+    }
+    logger.info("\(line, privacy: .public)")
   }
 
   /// The newest entries, oldest first, for the in-app log. Per-minute progress heartbeats are left out.
