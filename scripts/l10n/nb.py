@@ -1,6 +1,8 @@
 """Norsk bokmål"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: for stor for serveren – hoppes over til den endres',
+    'File too large for the server (HTTP 413)': 'Filen er for stor for serveren (HTTP 413)',
     "  · would adopt": "  · ville blitt koblet",
     "  · would upload": "  · ville blitt lastet opp",
     "%@ of %@ photos mirrored.": "%1$@ av %2$@ bilder speilet.",

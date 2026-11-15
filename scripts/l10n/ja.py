@@ -1,6 +1,8 @@
 """日本語"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@：サーバには大きすぎます — 変更されるまでスキップします',
+    'File too large for the server (HTTP 413)': 'ファイルがサーバには大きすぎます（HTTP 413）',
     "  · would adopt": "  ・ 関連付け予定",
     "  · would upload": "  ・ アップロード予定",
     "%@ of %@ photos mirrored.": "%2$@枚中%1$@枚をミラーしました。",

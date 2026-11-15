@@ -1,6 +1,8 @@
 """Español"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: demasiado grande para el servidor — omitido hasta que cambie',
+    'File too large for the server (HTTP 413)': 'Archivo demasiado grande para el servidor (HTTP 413)',
     "  · would adopt": "  · se vincularían",
     "  · would upload": "  · se subirían",
     "%@ of %@ photos mirrored.": "%1$@ de %2$@ fotos replicadas.",

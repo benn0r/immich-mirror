@@ -1,6 +1,8 @@
 """Svenska"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: för stor för servern – hoppas över tills den ändras',
+    'File too large for the server (HTTP 413)': 'Filen är för stor för servern (HTTP 413)',
     "  · would adopt": "  · skulle kopplas",
     "  · would upload": "  · skulle laddas upp",
     "%@ of %@ photos mirrored.": "%1$@ av %2$@ bilder speglade.",

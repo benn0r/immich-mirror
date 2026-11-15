@@ -4,6 +4,8 @@ Every language module in this folder translates all STRINGS and PLURALS keys; VE
 """
 
 STRINGS = [
+    '%@: too large for the server — skipped until it changes',
+    'File too large for the server (HTTP 413)',
     '  · would adopt',
     '  · would upload',
     '%@ of %@ photos mirrored.',

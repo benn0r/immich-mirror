@@ -55,6 +55,7 @@ final class MirrorStore {
         name TEXT NOT NULL
       );
       CREATE TABLE IF NOT EXISTS kv(key TEXT PRIMARY KEY, value TEXT);
+      CREATE TABLE IF NOT EXISTS too_large(local_id TEXT PRIMARY KEY, modified_at REAL NOT NULL);
       """)
   }
 
@@ -133,6 +134,24 @@ final class MirrorStore {
     try db.run("DELETE FROM albums WHERE local_id = ?", [.text(localId)])
   }
 
+  // MARK: too large
+
+  /// Photos the server refused as too large (HTTP 413), with the modification date of the refused
+  /// version: skipped until the photo changes, so every run doesn't download them from iCloud again.
+  func tooLarge() throws -> [String: Double] {
+    var r: [String: Double] = [:]
+    try db.query("SELECT local_id, modified_at FROM too_large") { r[$0.text(0) ?? ""] = $0.real(1) }
+    return r
+  }
+
+  func markTooLarge(localId: String, modifiedAt: Double) throws {
+    try db.run(
+      """
+      INSERT INTO too_large(local_id, modified_at) VALUES(?,?)
+      ON CONFLICT(local_id) DO UPDATE SET modified_at=excluded.modified_at
+      """, [.text(localId), .real(modifiedAt)])
+  }
+
   // MARK: kv
 
   func get(_ key: String) throws -> String? {
@@ -148,6 +167,6 @@ final class MirrorStore {
   }
 
   func reset() throws {
-    try db.exec("DELETE FROM assets; DELETE FROM albums; DELETE FROM kv;")
+    try db.exec("DELETE FROM assets; DELETE FROM albums; DELETE FROM kv; DELETE FROM too_large;")
   }
 }

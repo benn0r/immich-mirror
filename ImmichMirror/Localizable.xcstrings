@@ -827,6 +827,124 @@
         }
       }
     },
+    "%@: too large for the server — skipped until it changes" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: zu groß für den Server – übersprungen, bis es sich ändert"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : trop volumineux pour le serveur — ignoré jusqu’à sa modification"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: troppo grande per il server — saltato finché non cambia"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: demasiado grande para el servidor — omitido hasta que cambie"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: te groot voor de server — overgeslagen tot het verandert"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: demasiado grande para o servidor — ignorado até ser alterado"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: grande demais para o servidor — ignorado até ser alterado"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: för stor för servern – hoppas över tills den ändras"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: for stor til serveren – springes over, indtil den ændres"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: for stor for serveren – hoppes over til den endres"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: liian suuri palvelimelle – ohitetaan, kunnes se muuttuu"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：サーバには大きすぎます — 変更されるまでスキップします"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: za duży dla serwera — pomijany, dopóki się nie zmieni"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：对服务器来说太大 — 在其更改前跳过"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@：對伺服器來說太大 — 在其變更前略過"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: 서버에 비해 너무 큼 — 변경될 때까지 건너뜀"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: завеликий для сервера — пропущено, доки не зміниться"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: příliš velký pro server — přeskočeno, dokud se nezmění"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: sunucu için çok büyük — değişene kadar atlanıyor"
+          }
+        }
+      }
+    },
     "%lld / %lld" : {
       "shouldTranslate" : false
     },
@@ -9844,6 +9962,124 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Güncellenen favoriler"
+          }
+        }
+      }
+    },
+    "File too large for the server (HTTP 413)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datei zu groß für den Server (HTTP 413)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichier trop volumineux pour le serveur (HTTP 413)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File troppo grande per il server (HTTP 413)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivo demasiado grande para el servidor (HTTP 413)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestand te groot voor de server (HTTP 413)"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiro demasiado grande para o servidor (HTTP 413)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivo grande demais para o servidor (HTTP 413)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen är för stor för servern (HTTP 413)"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen er for stor til serveren (HTTP 413)"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen er for stor for serveren (HTTP 413)"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiedosto on liian suuri palvelimelle (HTTP 413)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがサーバには大きすぎます（HTTP 413）"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik za duży dla serwera (HTTP 413)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件对服务器来说太大（HTTP 413）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案對伺服器來說太大（HTTP 413）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 서버에 비해 너무 큼(HTTP 413)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл завеликий для сервера (HTTP 413)"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor je pro server příliš velký (HTTP 413)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya sunucu için çok büyük (HTTP 413)"
           }
         }
       }

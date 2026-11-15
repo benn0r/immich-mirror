@@ -1,6 +1,8 @@
 """한국어"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: 서버에 비해 너무 큼 — 변경될 때까지 건너뜀',
+    'File too large for the server (HTTP 413)': '파일이 서버에 비해 너무 큼(HTTP 413)',
     "  · would adopt": "  · 연결 예정",
     "  · would upload": "  · 업로드 예정",
     "%@ of %@ photos mirrored.": "사진 %2$@장 중 %1$@장 미러링 완료.",

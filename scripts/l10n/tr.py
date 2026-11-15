@@ -1,6 +1,8 @@
 """Türkçe"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: sunucu için çok büyük — değişene kadar atlanıyor',
+    'File too large for the server (HTTP 413)': 'Dosya sunucu için çok büyük (HTTP 413)',
     "  · would adopt": "  · bağlanacak",
     "  · would upload": "  · yüklenecek",
     "%@ of %@ photos mirrored.": "%2$@ fotoğrafın %1$@ tanesi yansıtıldı.",

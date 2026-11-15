@@ -1,6 +1,8 @@
 """Українська"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: завеликий для сервера — пропущено, доки не зміниться',
+    'File too large for the server (HTTP 413)': 'Файл завеликий для сервера (HTTP 413)',
     "  · would adopt": "  · було б пов’язано",
     "  · would upload": "  · було б вивантажено",
     "%@ of %@ photos mirrored.": "Віддзеркалено %1$@ з %2$@ фото.",

@@ -1,6 +1,8 @@
 """Nederlands"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: te groot voor de server — overgeslagen tot het verandert',
+    'File too large for the server (HTTP 413)': 'Bestand te groot voor de server (HTTP 413)',
     "  · would adopt": "  · zouden worden gekoppeld",
     "  · would upload": "  · zouden worden geüpload",
     "%@ of %@ photos mirrored.": "%1$@ van %2$@ foto's gespiegeld.",

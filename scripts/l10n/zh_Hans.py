@@ -1,6 +1,8 @@
 """简体中文"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@：对服务器来说太大 — 在其更改前跳过',
+    'File too large for the server (HTTP 413)': '文件对服务器来说太大（HTTP 413）',
     "  · would adopt": "  · 将被关联",
     "  · would upload": "  · 将被上传",
     "%@ of %@ photos mirrored.": "已镜像 %1$@ / %2$@ 张照片。",

@@ -1,6 +1,8 @@
 """Čeština"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: příliš velký pro server — přeskočeno, dokud se nezmění',
+    'File too large for the server (HTTP 413)': 'Soubor je pro server příliš velký (HTTP 413)',
     "  · would adopt": "  · by se propojilo",
     "  · would upload": "  · by se nahrálo",
     "%@ of %@ photos mirrored.": "Zrcadleno %1$@ z %2$@ fotek.",

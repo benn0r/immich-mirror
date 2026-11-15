@@ -50,6 +50,7 @@ struct SyncReport: Equatable {
   var mirroredAfter = 0
 
   var newFound = 0
+  var skippedTooLarge = 0  // refused earlier by the server (HTTP 413) and unchanged since
   var changedFound = 0
   var uploaded = 0
   var adopted = 0  // already on server (same checksum) → linked, no upload
@@ -163,8 +164,18 @@ actor SyncEngine {
       return finish(report)
     }
 
-    // 4. New photos (adopt existing server copies by checksum, otherwise upload).
-    try await applyNew(plan.new, stored: &stored, report: &report)
+    // 4. New photos (adopt existing server copies by checksum, otherwise upload). Ones the server
+    // refused as too large are skipped until they change: no point downloading them again.
+    let tooLarge = (try? store.tooLarge()) ?? [:]
+    let uploadable = plan.new.filter { id in
+      guard let refused = tooLarge[id], let asset = localById[id] else { return true }
+      return abs(refused - asset.modifiedAt) > 0.5
+    }
+    report.skippedTooLarge = plan.new.count - uploadable.count
+    if report.skippedTooLarge > 0 {
+      onLog("Skipped \(report.skippedTooLarge) files the server refused earlier as too large")
+    }
+    try await applyNew(uploadable, stored: &stored, report: &report)
     if Task.isCancelled {
       report.cancelled = true
       return finish(report)
@@ -494,6 +505,14 @@ actor SyncEngine {
           try store.upsert(rec)
         } catch let err as ImmichError where isFatal(err) {
           throw err
+        } catch ImmichError.http(413, _) {
+          // Too large for the server or a proxy in front of it (Cloudflare: 100 MB). Move on.
+          try? store.markTooLarge(
+            localId: e.localId, modifiedAt: e.modifiedAt.timeIntervalSince1970)
+          report.failures.append(
+            String(
+              localized:
+                "\(e.primary.filename): too large for the server — skipped until it changes"))
         } catch {
           report.failures.append("\(e.primary.filename): \(error.localizedDescription)")
         }

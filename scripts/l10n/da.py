@@ -1,6 +1,8 @@
 """Dansk"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: for stor til serveren – springes over, indtil den ændres',
+    'File too large for the server (HTTP 413)': 'Filen er for stor til serveren (HTTP 413)',
     "  · would adopt": "  · ville blive tilknyttet",
     "  · would upload": "  · ville blive uploadet",
     "%@ of %@ photos mirrored.": "%1$@ af %2$@ billeder spejlet.",

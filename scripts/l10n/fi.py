@@ -1,6 +1,8 @@
 """Suomi"""
 
 S = {
+    '%@: too large for the server — skipped until it changes': '%@: liian suuri palvelimelle – ohitetaan, kunnes se muuttuu',
+    'File too large for the server (HTTP 413)': 'Tiedosto on liian suuri palvelimelle (HTTP 413)',
     "  · would adopt": "  · liitettäisiin",
     "  · would upload": "  · ladattaisiin palvelimelle",
     "%@ of %@ photos mirrored.": "%1$@/%2$@ kuvaa peilattu.",
