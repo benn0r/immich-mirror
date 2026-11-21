@@ -1,6 +1,13 @@
 """Dansk"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud leverede ikke originalen (%1$@ %2$lld)',
+    '(no file name)': '(intet filnavn)',
+    '(no date)': '(ingen dato)',
+    'File': 'Fil',
+    'Taken': 'Taget',
+    'Open Photos': 'Åbn Fotos',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Find fotoet ud fra datoen, og åbn det i fuld størrelse, så iCloud henter originalen. Næste synkronisering tager det med. Kan Fotos heller ikke indlæse det, er kopien i iCloud beskadiget.',
     '%@: too large for the server — skipped until it changes': '%@: for stor til serveren – springes over, indtil den ændres',
     'File too large for the server (HTTP 413)': 'Filen er for stor til serveren (HTTP 413)',
     "  · would adopt": "  · ville blive tilknyttet",

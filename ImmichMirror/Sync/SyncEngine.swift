@@ -74,7 +74,7 @@ struct SyncReport: Equatable {
   var albumAssetsAdded = 0
   var albumAssetsRemoved = 0
 
-  var failures: [String] = []
+  var failures: [SyncFailure] = []
   var diagnostics: [String] = []
   struct Placed: Equatable {
     let filename: String
@@ -84,6 +84,23 @@ struct SyncReport: Equatable {
   /// Uploaded/adopted this run (capped), for "show in Immich" links.
   var placed: [Placed] = []
   var cancelled = false
+}
+
+/// One item the run could not mirror. `localId` links it back to the photo in the library.
+struct SyncFailure: Equatable, CustomStringConvertible {
+  var localId: String?
+  var message: String
+  var description: String { localId.map { "\($0): \(message)" } ?? message }
+
+  /// PhotoKit's raw errors ("CloudPhotoLibraryErrorDomain error 1005") mean nothing to people.
+  static func message(for error: Error) -> String {
+    let e = error as NSError
+    let iCloudRefused =
+      (e.domain == "CloudPhotoLibraryErrorDomain")
+      || (e.domain == "PHPhotosErrorDomain" && (e.code == 3169 || e.code == -1))
+    guard iCloudRefused else { return error.localizedDescription }
+    return String(localized: "iCloud didn't deliver the original (\(e.domain) \(e.code))")
+  }
 }
 
 /// Runs one mirror pass: iCloud library → Immich. iCloud is the source of truth.
@@ -396,7 +413,7 @@ actor SyncEngine {
       } catch let e as ImmichError where isFatal(e) {
         throw e
       } catch {
-        report.failures.append("\(localId): \(error.localizedDescription)")
+        report.failures.append(.init(localId: localId, message: SyncFailure.message(for: error)))
       }
     }
   }
@@ -445,7 +462,9 @@ actor SyncEngine {
         onLog(
           "Server check failed for \(exported.count) photos, skipping them: \(error.localizedDescription)"
         )
-        report.failures += exported.map { "\($0.primary.filename): \(error.localizedDescription)" }
+        report.failures += exported.map {
+          .init(localId: $0.localId, message: error.localizedDescription)
+        }
         done += batch.count
         onProgress(.init(phase: phase, done: done, total: work.count))
         continue
@@ -497,7 +516,8 @@ actor SyncEngine {
                   how: String(localized: "adopted")))
             }
           } else if res?.action == "reject" {
-            report.failures.append("\(e.primary.filename): rejected (\(res?.reason ?? "unknown"))")
+            report.failures.append(
+              .init(localId: e.localId, message: "rejected (\(res?.reason ?? "unknown"))"))
             continue
           } else {
             let placed = try await place(e, cloudId: cloudId)
@@ -525,11 +545,13 @@ actor SyncEngine {
           try? store.markTooLarge(
             localId: e.localId, modifiedAt: e.modifiedAt.timeIntervalSince1970)
           report.failures.append(
-            String(
-              localized:
-                "\(e.primary.filename): too large for the server — skipped until it changes"))
+            .init(
+              localId: e.localId,
+              message: String(
+                localized:
+                  "\(e.primary.filename): too large for the server — skipped until it changes")))
         } catch {
-          report.failures.append("\(e.primary.filename): \(error.localizedDescription)")
+          report.failures.append(.init(localId: e.localId, message: error.localizedDescription))
         }
       }
       do {
@@ -583,11 +605,11 @@ actor SyncEngine {
 
   /// Exports (downloads from iCloud if needed + hashes) up to 4 assets concurrently.
   private func exportAll(_ ids: [String], phase: String, doneBefore: Int, total: Int) async -> (
-    [ExportedAsset], [String]
+    [ExportedAsset], [SyncFailure]
   ) {
     let progress = onProgress
     var exported: [ExportedAsset] = []
-    var failed: [String] = []
+    var failed: [SyncFailure] = []
     var finished = 0
     await withTaskGroup(of: (String, Result<ExportedAsset, Error>).self) { group in
       var it = ids.makeIterator()
@@ -616,7 +638,9 @@ actor SyncEngine {
             .init(
               phase: phase, done: doneBefore + finished, total: total, detail: e.primary.filename))
         case .failure(let err):
-          if !(err is CancellationError) { failed.append("\(id): \(err.localizedDescription)") }
+          if !(err is CancellationError) {
+            failed.append(.init(localId: id, message: SyncFailure.message(for: err)))
+          }
           progress(.init(phase: phase, done: doneBefore + finished, total: total, detail: nil))
         }
         if !Task.isCancelled, let next = it.next() { add(next) }

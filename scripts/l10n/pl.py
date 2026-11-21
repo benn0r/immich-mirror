@@ -1,6 +1,13 @@
 """Polski"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud nie dostarczył oryginału (%1$@ %2$lld)',
+    '(no file name)': '(brak nazwy pliku)',
+    '(no date)': '(brak daty)',
+    'File': 'Plik',
+    'Taken': 'Zrobiono',
+    'Open Photos': 'Otwórz Zdjęcia',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Znajdź zdjęcie po dacie i otwórz je w pełnym rozmiarze, aby iCloud pobrał oryginał. Następna synchronizacja je uwzględni. Jeśli Zdjęcia też nie mogą go wczytać, kopia w iCloud jest uszkodzona.',
     '%@: too large for the server — skipped until it changes': '%@: za duży dla serwera — pomijany, dopóki się nie zmieni',
     'File too large for the server (HTTP 413)': 'Plik za duży dla serwera (HTTP 413)',
     "  · would adopt": "  · zostałyby powiązane",

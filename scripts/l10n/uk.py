@@ -1,6 +1,13 @@
 """Українська"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud не надав оригінал (%1$@ %2$lld)',
+    '(no file name)': '(без назви файлу)',
+    '(no date)': '(без дати)',
+    'File': 'Файл',
+    'Taken': 'Знято',
+    'Open Photos': 'Відкрити Фото',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Знайдіть фото за датою і відкрийте його в повному розмірі, щоб iCloud завантажив оригінал. Наступна синхронізація його підхопить. Якщо Фото теж не можуть його завантажити, копія в iCloud пошкоджена.',
     '%@: too large for the server — skipped until it changes': '%@: завеликий для сервера — пропущено, доки не зміниться',
     'File too large for the server (HTTP 413)': 'Файл завеликий для сервера (HTTP 413)',
     "  · would adopt": "  · було б пов’язано",

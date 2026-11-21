@@ -1,6 +1,13 @@
 """Svenska"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud levererade inte originalet (%1$@ %2$lld)',
+    '(no file name)': '(inget filnamn)',
+    '(no date)': '(inget datum)',
+    'File': 'Fil',
+    'Taken': 'Tagen',
+    'Open Photos': 'Öppna Bilder',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Hitta bilden via datumet och öppna den i full storlek så att iCloud hämtar originalet. Nästa synkning tar med den. Om Bilder inte heller kan läsa in den är kopian i iCloud skadad.',
     '%@: too large for the server — skipped until it changes': '%@: för stor för servern – hoppas över tills den ändras',
     'File too large for the server (HTTP 413)': 'Filen är för stor för servern (HTTP 413)',
     "  · would adopt": "  · skulle kopplas",

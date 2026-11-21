@@ -6190,6 +6190,242 @@
         }
       }
     },
+    "(no date)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(kein Datum)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sans date)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(nessuna data)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sin fecha)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(geen datum)"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sem data)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sem data)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(inget datum)"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(ingen dato)"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(ingen dato)"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(ei päivämäärää)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（日付なし）"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(brak daty)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（无日期）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（無日期）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(날짜 없음)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(без дати)"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(bez data)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(tarih yok)"
+          }
+        }
+      }
+    },
+    "(no file name)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(kein Dateiname)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sans nom de fichier)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(nessun nome file)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sin nombre de archivo)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(geen bestandsnaam)"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sem nome de ficheiro)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(sem nome de arquivo)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(inget filnamn)"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(intet filnavn)"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(ikke noe filnavn)"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(ei tiedostonimeä)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（ファイル名なし）"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(brak nazwy pliku)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（无文件名）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（無檔名）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(파일 이름 없음)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(без назви файлу)"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(bez názvu souboru)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(dosya adı yok)"
+          }
+        }
+      }
+    },
     "1,000 photos" : {
       "localizations" : {
         "de" : {
@@ -9966,6 +10202,124 @@
         }
       }
     },
+    "File" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datei"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivo"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestand"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiro"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivo"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fil"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fil"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fil"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiedosto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイル"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya"
+          }
+        }
+      }
+    },
     "File too large for the server (HTTP 413)" : {
       "localizations" : {
         "de" : {
@@ -10080,6 +10434,124 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dosya sunucu için çok büyük (HTTP 413)"
+          }
+        }
+      }
+    },
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche das Foto über sein Datum und öffne es in voller Grösse, damit iCloud das Original lädt. Der nächste Abgleich übernimmt es dann. Lädt es auch in Fotos nicht, ist die Kopie in iCloud beschädigt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retrouvez la photo grâce à sa date et ouvrez-la en plein écran pour qu’iCloud télécharge l’original. La prochaine synchronisation la prendra en compte. Si Photos ne parvient pas non plus à la charger, la copie dans iCloud est endommagée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trova la foto tramite la data e aprila a schermo intero, così iCloud scarica l’originale. La prossima sincronizzazione la includerà. Se nemmeno Foto riesce a caricarla, la copia su iCloud è danneggiata."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca la foto por su fecha y ábrela a tamaño completo para que iCloud descargue el original. La próxima sincronización la incluirá. Si Fotos tampoco puede cargarla, la copia de iCloud está dañada."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek de foto op datum en open hem op volledige grootte, zodat iCloud het origineel downloadt. De volgende synchronisatie neemt hem dan mee. Laadt hij ook in Foto's niet, dan is de kopie in iCloud beschadigd."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre a fotografia pela data e abra-a em tamanho real para que o iCloud descarregue o original. A próxima sincronização irá incluí-la. Se a app Fotografias também não a conseguir carregar, a cópia no iCloud está danificada."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre a foto pela data e abra-a em tamanho real para que o iCloud baixe o original. A próxima sincronização a incluirá. Se o Fotos também não conseguir carregá-la, a cópia no iCloud está danificada."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hitta bilden via datumet och öppna den i full storlek så att iCloud hämtar originalet. Nästa synkning tar med den. Om Bilder inte heller kan läsa in den är kopian i iCloud skadad."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find fotoet ud fra datoen, og åbn det i fuld størrelse, så iCloud henter originalen. Næste synkronisering tager det med. Kan Fotos heller ikke indlæse det, er kopien i iCloud beskadiget."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finn bildet etter datoen og åpne det i full størrelse, så laster iCloud ned originalen. Neste synkronisering tar det med. Hvis Bilder heller ikke klarer å laste det, er kopien i iCloud skadet."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etsi kuva päivämäärän perusteella ja avaa se täysikokoisena, jotta iCloud lataa alkuperäisen. Seuraava synkronointi ottaa sen mukaan. Jos Kuvat-appikaan ei saa sitä ladattua, iCloudissa oleva kopio on vioittunut."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日付で写真を探し、フルサイズで開いてiCloudにオリジナルをダウンロードさせてください。次回の同期で取り込まれます。写真アプリでも読み込めない場合は、iCloud上のコピーが破損しています。"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajdź zdjęcie po dacie i otwórz je w pełnym rozmiarze, aby iCloud pobrał oryginał. Następna synchronizacja je uwzględni. Jeśli Zdjęcia też nie mogą go wczytać, kopia w iCloud jest uszkodzona."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按日期找到这张照片并以全尺寸打开，让 iCloud 下载原件。下次同步时会将其纳入。如果“照片”也无法载入，说明 iCloud 中的副本已损坏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依日期找到這張照片並以全尺寸打開，讓 iCloud 下載原始檔。下次同步時會將其納入。如果「照片」也無法載入，表示 iCloud 中的副本已損毀。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "날짜로 사진을 찾아 전체 크기로 열면 iCloud가 원본을 다운로드합니다. 다음 동기화 때 반영됩니다. 사진 앱에서도 불러올 수 없다면 iCloud의 사본이 손상된 것입니다."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знайдіть фото за датою і відкрийте його в повному розмірі, щоб iCloud завантажив оригінал. Наступна синхронізація його підхопить. Якщо Фото теж не можуть його завантажити, копія в iCloud пошкоджена."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najděte fotku podle data a otevřete ji v plné velikosti, aby iCloud stáhl originál. Příští synchronizace ji zahrne. Pokud ji nenačtou ani Fotky, kopie na iCloudu je poškozená."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğrafı tarihinden bulun ve iCloud’un orijinali indirmesi için tam boyutta açın. Sonraki eşzamanlama onu alır. Fotoğraflar da yükleyemiyorsa iCloud’daki kopya bozuktur."
           }
         }
       }
@@ -13428,6 +13900,124 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eşzamanlama bitince bildir"
+          }
+        }
+      }
+    },
+    "Open Photos" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos öffnen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Photos"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Foto"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Fotos"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Foto's"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Fotografias"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Fotos"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Bilder"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn Fotos"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne Bilder"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa Kuvat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を開く"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Zdjęcia"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开“照片”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開「照片」"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진 열기"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити Фото"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Fotky"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoğraflar’ı Aç"
           }
         }
       }
@@ -17686,6 +18276,124 @@
         }
       }
     },
+    "Taken" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufgenommen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prise le"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scattata"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomada"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemaakt"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tirada em"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tirada em"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tagen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taget"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tatt"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otettu"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "撮影日時"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrobiono"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍摄时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍攝時間"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "촬영"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знято"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pořízeno"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çekildi"
+          }
+        }
+      }
+    },
     "Technical details of every sync on the home screen, for troubleshooting. The share button there sends the full log file." : {
       "localizations" : {
         "de" : {
@@ -19738,6 +20446,124 @@
     },
     "https://immich.example.com" : {
       "shouldTranslate" : false
+    },
+    "iCloud didn't deliver the original (%@ %lld)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud hat das Original nicht geliefert (%1$@ %2$lld)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud n’a pas fourni l’original (%1$@ %2$lld)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud non ha fornito l’originale (%1$@ %2$lld)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud no entregó el original (%1$@ %2$lld)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud heeft het origineel niet geleverd (%1$@ %2$lld)"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud não entregou o original (%1$@ %2$lld)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud não entregou o original (%1$@ %2$lld)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud levererade inte originalet (%1$@ %2$lld)"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud leverede ikke originalen (%1$@ %2$lld)"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud leverte ikke originalen (%1$@ %2$lld)"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud ei toimittanut alkuperäistä (%1$@ %2$lld)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudからオリジナルを取得できませんでした（%1$@ %2$lld）"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud nie dostarczył oryginału (%1$@ %2$lld)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 未提供原件（%1$@ %2$lld）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 未提供原始檔（%1$@ %2$lld）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud에서 원본을 받지 못했습니다(%1$@ %2$lld)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud не надав оригінал (%1$@ %2$lld)"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud nedodal originál (%1$@ %2$lld)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud orijinali teslim etmedi (%1$@ %2$lld)"
+          }
+        }
+      }
     },
     "iOS runs it when it sees fit, usually overnight while charging. Turn off dry run to enable." : {
       "localizations" : {

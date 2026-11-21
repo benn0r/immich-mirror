@@ -1,6 +1,13 @@
 """Nederlands"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud heeft het origineel niet geleverd (%1$@ %2$lld)',
+    '(no file name)': '(geen bestandsnaam)',
+    '(no date)': '(geen datum)',
+    'File': 'Bestand',
+    'Taken': 'Gemaakt',
+    'Open Photos': "Open Foto's",
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": "Zoek de foto op datum en open hem op volledige grootte, zodat iCloud het origineel downloadt. De volgende synchronisatie neemt hem dan mee. Laadt hij ook in Foto's niet, dan is de kopie in iCloud beschadigd.",
     '%@: too large for the server — skipped until it changes': '%@: te groot voor de server — overgeslagen tot het verandert',
     'File too large for the server (HTTP 413)': 'Bestand te groot voor de server (HTTP 413)',
     "  · would adopt": "  · zouden worden gekoppeld",

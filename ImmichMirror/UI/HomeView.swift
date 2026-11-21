@@ -252,13 +252,7 @@ struct ReportSection: View {
           }
         }
       }
-      if !report.failures.isEmpty {
-        DisclosureGroup("\(report.failures.count) failures") {
-          ForEach(Array(report.failures.prefix(100).enumerated()), id: \.offset) { _, f in
-            Text(f).font(.caption).foregroundStyle(.red)
-          }
-        }
-      }
+      if !report.failures.isEmpty { FailedItemsGroup(failures: report.failures) }
     }
   }
 

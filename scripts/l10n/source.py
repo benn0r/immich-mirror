@@ -4,6 +4,13 @@ Every language module in this folder translates all STRINGS and PLURALS keys; VE
 """
 
 STRINGS = [
+    "iCloud didn't deliver the original (%@ %lld)",
+    '(no file name)',
+    '(no date)',
+    'File',
+    'Taken',
+    'Open Photos',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.",
     '%@: too large for the server — skipped until it changes',
     'File too large for the server (HTTP 413)',
     '  · would adopt',

@@ -1,6 +1,13 @@
 """한국어"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud에서 원본을 받지 못했습니다(%1$@ %2$lld)',
+    '(no file name)': '(파일 이름 없음)',
+    '(no date)': '(날짜 없음)',
+    'File': '파일',
+    'Taken': '촬영',
+    'Open Photos': '사진 열기',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": '날짜로 사진을 찾아 전체 크기로 열면 iCloud가 원본을 다운로드합니다. 다음 동기화 때 반영됩니다. 사진 앱에서도 불러올 수 없다면 iCloud의 사본이 손상된 것입니다.',
     '%@: too large for the server — skipped until it changes': '%@: 서버에 비해 너무 큼 — 변경될 때까지 건너뜀',
     'File too large for the server (HTTP 413)': '파일이 서버에 비해 너무 큼(HTTP 413)',
     "  · would adopt": "  · 연결 예정",

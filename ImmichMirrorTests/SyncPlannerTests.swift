@@ -171,7 +171,7 @@ final class SyncNotifierTests: XCTestCase {
       $0.cancelled = true
       $0.deletionBlockedReason = "too many"
       $0.pendingDeletions = 300
-      $0.failures = ["a", "b"]
+      $0.failures = [.init(localId: nil, message: "a"), .init(localId: "x", message: "b")]
     }
     let (title, body) = SyncNotifier.summary(r)
     XCTAssertEqual(title, "Sync stopped")

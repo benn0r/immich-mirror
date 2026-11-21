@@ -1,6 +1,13 @@
 """简体中文"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud 未提供原件（%1$@ %2$lld）',
+    '(no file name)': '（无文件名）',
+    '(no date)': '（无日期）',
+    'File': '文件',
+    'Taken': '拍摄时间',
+    'Open Photos': '打开“照片”',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": '按日期找到这张照片并以全尺寸打开，让 iCloud 下载原件。下次同步时会将其纳入。如果“照片”也无法载入，说明 iCloud 中的副本已损坏。',
     '%@: too large for the server — skipped until it changes': '%@：对服务器来说太大 — 在其更改前跳过',
     'File too large for the server (HTTP 413)': '文件对服务器来说太大（HTTP 413）',
     "  · would adopt": "  · 将被关联",

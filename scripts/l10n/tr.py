@@ -1,6 +1,13 @@
 """Türkçe"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud orijinali teslim etmedi (%1$@ %2$lld)',
+    '(no file name)': '(dosya adı yok)',
+    '(no date)': '(tarih yok)',
+    'File': 'Dosya',
+    'Taken': 'Çekildi',
+    'Open Photos': 'Fotoğraflar’ı Aç',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Fotoğrafı tarihinden bulun ve iCloud’un orijinali indirmesi için tam boyutta açın. Sonraki eşzamanlama onu alır. Fotoğraflar da yükleyemiyorsa iCloud’daki kopya bozuktur.',
     '%@: too large for the server — skipped until it changes': '%@: sunucu için çok büyük — değişene kadar atlanıyor',
     'File too large for the server (HTTP 413)': 'Dosya sunucu için çok büyük (HTTP 413)',
     "  · would adopt": "  · bağlanacak",

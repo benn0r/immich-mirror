@@ -1,6 +1,13 @@
 """Čeština"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud nedodal originál (%1$@ %2$lld)',
+    '(no file name)': '(bez názvu souboru)',
+    '(no date)': '(bez data)',
+    'File': 'Soubor',
+    'Taken': 'Pořízeno',
+    'Open Photos': 'Otevřít Fotky',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Najděte fotku podle data a otevřete ji v plné velikosti, aby iCloud stáhl originál. Příští synchronizace ji zahrne. Pokud ji nenačtou ani Fotky, kopie na iCloudu je poškozená.',
     '%@: too large for the server — skipped until it changes': '%@: příliš velký pro server — přeskočeno, dokud se nezmění',
     'File too large for the server (HTTP 413)': 'Soubor je pro server příliš velký (HTTP 413)',
     "  · would adopt": "  · by se propojilo",

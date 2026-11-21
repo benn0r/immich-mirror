@@ -1,6 +1,13 @@
 """Suomi"""
 
 S = {
+    "iCloud didn't deliver the original (%@ %lld)": 'iCloud ei toimittanut alkuperäistä (%1$@ %2$lld)',
+    '(no file name)': '(ei tiedostonimeä)',
+    '(no date)': '(ei päivämäärää)',
+    'File': 'Tiedosto',
+    'Taken': 'Otettu',
+    'Open Photos': 'Avaa Kuvat',
+    "Find the photo by its date and open it in full size, so iCloud downloads the original. The next sync picks it up. If Photos can't load it either, the copy in iCloud is damaged.": 'Etsi kuva päivämäärän perusteella ja avaa se täysikokoisena, jotta iCloud lataa alkuperäisen. Seuraava synkronointi ottaa sen mukaan. Jos Kuvat-appikaan ei saa sitä ladattua, iCloudissa oleva kopio on vioittunut.',
     '%@: too large for the server — skipped until it changes': '%@: liian suuri palvelimelle – ohitetaan, kunnes se muuttuu',
     'File too large for the server (HTTP 413)': 'Tiedosto on liian suuri palvelimelle (HTTP 413)',
     "  · would adopt": "  · liitettäisiin",
