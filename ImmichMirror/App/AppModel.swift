@@ -177,10 +177,20 @@ final class AppModel {
     )
     heartbeat?.cancel()
     heartbeat = Task { [weak self] in
+      var beats = 0
       while !Task.isCancelled {
-        try? await Task.sleep(nanoseconds: 60_000_000_000)
+        try? await Task.sleep(nanoseconds: 5_000_000_000)
         guard let self, self.isRunning else { return }
-        SyncLog.write("… \(self.progressLine) · \(SyncLog.conditions())")
+        beats += 1
+        // Keep iOS's progress moving while one big item is in flight (e.g. the server is still
+        // receiving or processing a video). Real stalls are caught by the download watchdog and
+        // the request timeouts, so this cannot keep a hung run alive forever.
+        if #available(iOS 26.0, *), let bg = self.continuedTask as? BGContinuedProcessingTask,
+          let cur = self.progress
+        {
+          ContinuedSync.report(bg, cur, tick: true)
+        }
+        if beats % 12 == 0 { SyncLog.write("… \(self.progressLine) · \(SyncLog.conditions())") }
       }
     }
     task = Task {

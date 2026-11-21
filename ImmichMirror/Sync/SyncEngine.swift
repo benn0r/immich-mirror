@@ -433,8 +433,23 @@ actor SyncEngine {
         continue
       }
 
-      let check = try await client.bulkUploadCheck(
-        exported.map { .init(id: $0.localId, checksum: $0.primary.sha1Hex) })
+      let check: [BulkUploadCheckResult]
+      do {
+        check = try await client.bulkUploadCheck(
+          exported.map { .init(id: $0.localId, checksum: $0.primary.sha1Hex) })
+      } catch let err as ImmichError where isFatal(err) {
+        throw err
+      } catch {
+        // One failed request costs this batch, not the run; the batch is retried next sync.
+        if Task.isCancelled { return }
+        onLog(
+          "Server check failed for \(exported.count) photos, skipping them: \(error.localizedDescription)"
+        )
+        report.failures += exported.map { "\($0.primary.filename): \(error.localizedDescription)" }
+        done += batch.count
+        onProgress(.init(phase: phase, done: done, total: work.count))
+        continue
+      }
       let byId = Dictionary(check.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
 
       if dry {
@@ -517,7 +532,14 @@ actor SyncEngine {
           report.failures.append("\(e.primary.filename): \(error.localizedDescription)")
         }
       }
-      try await client.upsertMetadata(metadata)
+      do {
+        try await client.upsertMetadata(metadata)
+      } catch let err as ImmichError where isFatal(err) {
+        throw err
+      } catch {
+        // The photos are on the server and mapped locally; only the recovery tag is missing.
+        onLog("Could not tag \(metadata.count) photos on the server: \(error.localizedDescription)")
+      }
       done += batch.count
       onProgress(.init(phase: phase, done: done, total: work.count))
     }

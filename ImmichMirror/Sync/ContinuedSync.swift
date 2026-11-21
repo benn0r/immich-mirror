@@ -36,12 +36,14 @@ enum ContinuedSync {
   }
 
   // iOS expires a continued task whose progress stops moving, so progress is one counter that only
-  // grows across all phases, and download/upload activity inside an item ("ticks") advances it too.
+  // grows across all phases, and activity inside an item ("ticks": download/upload callbacks and the
+  // app's keepalive while a request is in flight) advances it too. A unit holds a million ticks, so a
+  // multi-GB video never runs out of room and freezes the counter before it finishes.
   private static var base = 0  // units completed in earlier phases
   private static var phase = ""
   private static var phaseDone = 0
-  private static var ticks = 0  // activity since the last completed item (max 99)
-  private static let unit: Int64 = 100
+  private static var ticks = 0  // activity since the last completed item (< unit)
+  private static let unit: Int64 = 1_000_000
 
   static func resetProgress() {
     base = 0
@@ -61,7 +63,7 @@ enum ContinuedSync {
       phaseDone = p.done
       ticks = 0
     } else if tick {
-      ticks = min(ticks + 1, 99)
+      ticks = min(ticks + 1, Int(unit) - 1)
     }
     let done = Int64(base + phaseDone) * unit + Int64(ticks)
     let total = Int64(base + max(p.total, phaseDone + 1)) * unit
